@@ -1,0 +1,29 @@
+---
+// Button.astro
+interface Props {
+  href: string;
+  variant?: 'fill' | 'outline';
+  download?: boolean;
+  target?: '_blank';
+}
+
+const { href, variant = 'fill', download = false, target } = Astro.props;
+
+const styles = {
+  fill: 'bg-accent text-main hover:bg-accent-hover',
+  outline: 'border border-accent text-accent hover:bg-accent hover:text-main',
+};
+---
+
+<a
+  href={href}
+  download={download}
+  target={target}
+  rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+  class:list={[
+    'px-6 py-2.5 rounded transition-all duration-300 inline-flex items-center gap-2 hover:-translate-y-0.5',
+    styles[variant]
+  ]}
+>
+  <slot></slot>
+</a>

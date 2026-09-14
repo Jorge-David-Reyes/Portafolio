@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+
+interface Tag {
+  name: string;
+  icon: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  tags: Tag[];
+  image: ImageMetadata;
+  href?: string;
+  modalId?: string;
+}
+
+const { title, description, tags, image, href = '#', modalId } = Astro.props;
+---
+
+<article data-reveal class="bg-surface border border-border-subtle rounded-lg space-y-4 hover:border-accent-dim hover:-translate-y-1 hover:shadow-lg hover:shadow-black/30 transition-all duration-300 group flex flex-col justify-between">
+  <button
+    type="button"
+    data-project-modal-open={modalId}
+    aria-haspopup="dialog"
+    class="text-left w-full cursor-pointer space-y-4"
+  >
+    <div class="aspect-video bg-abyss-900 rounded-t-lg border border-border-subtle flex items-center justify-center text-secondary text-xs overflow-hidden">
+        <Image
+            src={image}
+            alt={`Captura de pantalla del proyecto ${title}`}
+            class="w-full h-full object-cover"
+        />
+    </div>
+    <div class="space-y-3 px-4">
+      <h3 class="font-display font-semibold text-lg text-primary">{title}</h3>
+      <div class="flex flex-wrap gap-1.5 font-mono text-xs text-accent">
+        {tags.map(tag => (
+          <span class="flex items-center gap-1.5 px-3 py-1.5 bg-abyss-900 rounded">
+            <Icon name={tag.icon} class="w-4 h-4" />
+            {tag.name}
+          </span>
+        ))}
+      </div>
+      <p class="text-sm text-secondary leading-relaxed">
+        {description}
+      </p>
+    </div>
+  </button>
+  <div class="inline-flex justify-end pb-4 pr-4">
+    <a href={href} target="_blank" rel="noopener noreferrer" class="inline-flex justify-end items-center gap-2 text-accent font-medium hover:text-accent-hover transition-colors">
+      Visitar sitio <Icon name="lucide:external-link" class="w-4 h-4" />
+    </a>
+  </div>
+</article>

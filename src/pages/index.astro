@@ -1,0 +1,218 @@
+---
+import { LayoutMain } from "@/layouts";
+import { Button, SkillChip, ProjectShowcase, Timeline, EducationCard, InProgressChip, ContactForm, CertificateCard } from '@/components';
+import { Icon } from 'astro-icon/components';
+import { skills, inProgress } from '@/data/skills'
+import { projects } from '@/data/projects';
+import { experience, education } from '@/data/experience';
+import { certificates } from '@/data/certificates';
+
+const socials = [
+  { name: 'GitHub', icon: 'simple-icons:github', href: 'https://github.com/Jorge-David-Reyes' },
+  { name: 'LinkedIn', icon: 'simple-icons:linkedin', href: 'https://linkedin.com/in/jorge-reyes-2a998428a' },
+];
+
+const [ipicyt, noticias, conageq] = projects;
+--- 
+
+<LayoutMain title="Jorge Reyes | Full Stack Developer | Aspiring Data Engineer">
+	<div class="max-w-6xl mx-auto px-6 py-8 space-y-16">
+		<main class="space-y-16">
+			<section id="inicio" class="scroll-mt-24 relative overflow-hidden grid grid-cols-1 lg:grid-cols-3 gap-8 items-start pt-6">
+
+				<div data-reveal class="lg:col-span-2 space-y-6 relative">
+					<div class="flex flex-col gap-4">
+						<h1 class="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-primary">
+							<span class="text-gradient">Jorge Reyes</span>
+						</h1>
+						<p class="text-secondary text-base sm:text-lg max-w-xl leading-relaxed">
+							Desarrollador Full Stack con más de 2 años de experiencia construyendo plataformas web completas: desde interfaces en Vue/Nuxt hasta backends en Laravel. Actualmente ampliando mi perfil hacia Data Engineering.
+						</p>
+					</div>
+
+					<div class="flex flex-wrap items-center gap-4 pt-2 font-body">
+						<Button href="#proyectos">Ver proyectos</Button>
+						<Button href="/cv/CV_Jorge_David_Reyes_Melendez.pdf" download variant="outline">
+							Descargar CV <Icon name="lucide:download" class="w-4 h-4" />
+						</Button>
+
+						<div class="flex items-center gap-3 pl-2">
+							{socials.map(social => (
+							<a
+								href={social.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								aria-label={social.name}
+								class="text-secondary hover:text-accent transition-colors"
+							>
+								<Icon name={social.icon} class="w-7 h-7" />
+							</a>
+							))}
+						</div>
+					</div>
+
+					<div class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-border-subtle rounded-full font-mono text-xs text-secondary">
+						<span class="relative flex h-2 w-2">
+							<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+							<span class="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+						</span>
+						Disponible para proyectos
+					</div>
+				</div>
+			</section>
+
+			<section class="space-y-6">
+				<h2 data-reveal class="font-display text-2xl font-medium text-primary">Habilidades</h2>
+				<div data-reveal class="flex flex-wrap gap-3">
+					{skills.map(skill => <SkillChip name={skill.name} icon={skill.icon} />)}
+				</div>
+
+				<div class="pt-2">
+					<h3 data-reveal class="font-mono text-xs tracking-widest uppercase text-secondary mb-3">
+						Actualmente en formación
+					</h3>
+					<div data-reveal class="flex flex-wrap gap-3">
+						{inProgress.map(item => (
+							<InProgressChip name={item.name} icon={item.icon} detail={item.detail} />
+						))}
+					</div>
+				</div>
+			</section>
+
+			<section id="proyectos" class="space-y-6 scroll-mt-24">
+				<h2 data-reveal class="font-display text-2xl font-medium text-primary">Proyectos destacados</h2>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+					<ProjectShowcase id="proyecto-ipicyt" project={ipicyt}>
+						<p>
+							Desarrollé por completo la página institucional del IPICYT (ipicyt.edu.mx) y lideré su
+							migración de Vue.js a Nuxt + TypeScript, implementando renderizado del lado del servidor
+							(SSR) para corregir los metadatos Open Graph — esto mejoró tanto el posicionamiento en
+							buscadores como la vista previa del sitio al compartirlo en redes sociales.
+						</p>
+						<p>
+							En paralelo, reestructuré el backend completo en Laravel: modelé los datos en MySQL usando
+							Eloquent ORM, y desarrollé consultas de solo lectura sobre una base de datos Oracle existente
+							para integrar información institucional sin duplicar fuentes de verdad.
+						</p>
+						<div class="space-y-2">
+							<h4 class="font-display font-medium text-primary text-base">Lo que hice</h4>
+							<ul class="list-disc pl-5 space-y-1.5">
+							<li>Migración completa de Vue.js a Nuxt + TypeScript con SSR.</li>
+							<li>Corrección de metadatos Open Graph para mejorar SEO y compartidos en redes.</li>
+							<li>Reestructuración del backend en Laravel con modelado de datos en MySQL (Eloquent ORM).</li>
+							<li>Consultas de solo lectura sobre Oracle para integración de datos institucionales.</li>
+							<li>Soporte y mantenimiento continuo de la plataforma.</li>
+							</ul>
+						</div>
+					</ProjectShowcase>
+
+					<ProjectShowcase id="proyecto-noticias" project={noticias}>
+						<p>
+							Desarrollé un panel administrativo completo con Vuetify + TypeScript para la gestión de
+							noticias y contenido del sitio institucional, pensado para que el personal de comunicación
+							del IPICYT pudiera publicar y editar información sin depender de un desarrollador.
+						</p>
+						<p>
+							Como parte del proyecto, migré los datos históricos de noticias de Oracle a MySQL,
+							consolidando el contenido en una sola base de datos y simplificando su mantenimiento a
+							futuro.
+						</p>
+						<div class="space-y-2">
+							<h4 class="font-display font-medium text-primary text-base">Lo que hice</h4>
+							<ul class="list-disc pl-5 space-y-1.5">
+							<li>Panel administrativo con Vuetify + TypeScript.</li>
+							<li>Sistema de gestión de noticias y contenido editorial.</li>
+							<li>Migración de datos históricos de Oracle a MySQL.</li>
+							<li>Backend en Laravel conectado al mismo modelo de datos del sitio principal.</li>
+							</ul>
+						</div>
+					</ProjectShowcase>
+
+					<ProjectShowcase id="proyecto-conageq" project={conageq}>
+						<p>
+							Desarrollé desde cero el sitio web oficial del evento académico CONAGEQ 2026, usando Astro
+							para maximizar el rendimiento y tiempos de carga — clave para un sitio de evento donde la
+							mayoría de las visitas llegan desde enlaces compartidos y necesitan cargar rápido.
+						</p>
+						<div class="space-y-2">
+							<h4 class="font-display font-medium text-primary text-base">Lo que hice</h4>
+							<ul class="list-disc pl-5 space-y-1.5">
+							<li>Sitio oficial del evento CONAGEQ 2026, construido con Astro.</li>
+							<li>Desarrollo completo del frontend con TypeScript y JavaScript.</li>
+							<li>Optimización de carga aprovechando el enfoque "islands" de Astro.</li>
+							</ul>
+						</div>
+					</ProjectShowcase>
+				</div>
+			</section>
+
+			<section id="sobre-mi" class="scroll-mt-24 space-y-10">
+				<div class="space-y-4">
+					<h2 data-reveal class="font-display text-2xl font-medium text-primary">Sobre mí</h2>
+					<p data-reveal class="text-secondary text-sm sm:text-base leading-relaxed">
+						Ingeniero en Sistemas Inteligentes con más de 2 años de experiencia como desarrollador
+						Full Stack, especializado en Vue.js/Nuxt, TypeScript y Laravel. Actualmente ampliando
+						mis conocimientos hacia Ingeniería de Datos mediante el IBM Data Engineering Professional Certificate.
+					</p>
+				</div>
+
+				<div class="space-y-4">
+					<h3 class="font-mono text-sm tracking-widest uppercase text-secondary">Educación</h3>
+					<EducationCard role={education.role} place={education.place} period={education.period} />
+				</div>
+
+				<div class="space-y-6">
+					<h3 class="font-mono text-sm tracking-widest uppercase text-secondary">Experiencia</h3>
+					<Timeline items={experience} />
+				</div>
+			</section>
+
+			<section id="certificaciones" class="scroll-mt-24 space-y-6">
+				<div class="flex items-center justify-between">
+					<h2 data-reveal class="font-display text-2xl font-medium text-primary">Certificaciones</h2>
+					<Icon
+					id="cert-scroll-hint"
+					name="lucide:arrow-right"
+					class="w-4 h-4 text-secondary sm:hidden animate-[nudge_1.4s_ease-in-out_infinite] transition-opacity duration-300"
+					/>
+				</div>
+
+				<div
+					id="cert-scroll"
+					class="no-scrollbar flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 -mx-6 px-6
+							scroll-pl-6 scroll-pr-6
+							sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:snap-none sm:mx-0 sm:px-0
+							lg:grid-cols-3"
+				>
+					{certificates.map(cert => (
+					<div class="shrink-0 w-[75%] snap-start sm:w-auto sm:shrink">
+						<CertificateCard
+						title={cert.title}
+						issuer={cert.issuer}
+						date={cert.date}
+						image={cert.image}
+						links={cert.links}
+						/>
+					</div>
+					))}
+				</div>
+			</section>
+
+			<section id="contacto" class="scroll-mt-24 space-y-6 pt-12">
+				<h2 data-reveal class="font-display text-2xl font-medium text-primary text-center">Contacto</h2>
+				<p data-reveal class="text-secondary text-sm sm:text-base max-w-lg mx-auto text-center">
+					¿Tienes un proyecto en mente o buscas sumar a alguien al equipo? Escríbeme.
+				</p>
+				<ContactForm  />
+			</section>
+		</main>
+
+	</div>
+</LayoutMain>
+
+<script>
+  	import { initProjectModals } from '@/scripts/projectModal';
+  	import { initScrollHint } from '@/scripts/scrollHint';
+  	initProjectModals();
+	initScrollHint('cert-scroll', 'cert-scroll-hint');
+</script>

@@ -1,0 +1,69 @@
+---
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY;
+---
+
+<form data-reveal id="contact-form" class="space-y-5 max-w-lg mx-auto">
+  <input type="hidden" name="access_key" value={accessKey} />
+  <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+
+  <div>
+    <label for="name" class="font-mono text-xs uppercase tracking-wide text-secondary block mb-2">
+      Nombre
+    </label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      required
+      class="w-full bg-surface border border-border-strong rounded px-4 py-2.5 text-primary text-sm focus:outline-none focus:border-accent transition-colors"
+    />
+    <p class="field-error text-error text-xs mt-1 hidden">Por favor ingresa tu nombre.</p>
+  </div>
+
+  <div>
+    <label for="email" class="font-mono text-xs uppercase tracking-wide text-secondary block mb-2">
+      Correo
+    </label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      class="w-full bg-surface border border-border-strong rounded px-4 py-2.5 text-primary text-sm focus:outline-none focus:border-accent transition-colors"
+    />
+    <p class="field-error text-error text-xs mt-1 hidden">Ingresa un correo válido.</p>
+  </div>
+
+  <div>
+    <label for="message" class="font-mono text-xs uppercase tracking-wide text-secondary block mb-2">
+      Mensaje
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      rows="5"
+      required
+      class="w-full bg-surface border border-border-strong rounded px-4 py-2.5 text-primary text-sm focus:outline-none focus:border-accent transition-colors resize-none"
+    ></textarea>
+    <p class="field-error text-error text-xs mt-1 hidden">Escribe un mensaje.</p>
+  </div>
+
+  <button
+    type="submit"
+    class="bg-accent text-main font-semibold px-6 py-2.5 rounded hover:bg-accent-hover transition-colors inline-flex items-center gap-2 disabled:opacity-50"
+  >
+    Enviar mensaje
+  </button>
+
+  <div id="form-success" class="hidden bg-success-bg border border-success text-success text-sm rounded px-4 py-3">
+    ¡Mensaje enviado! Te responderé pronto.
+  </div>
+  <div id="form-error" class="hidden bg-error-bg border border-error text-error text-sm rounded px-4 py-3">
+    Algo salió mal. Intenta de nuevo o escríbeme directo por correo.
+  </div>
+</form>
+
+<script>
+  import { initContactForm } from '@/scripts/contactForm';
+  initContactForm('contact-form');
+</script>

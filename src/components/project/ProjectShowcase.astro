@@ -1,0 +1,39 @@
+---
+import ProjectCard from '@/components/card/ProjectCard.astro';
+import ProjectModal from '@/components/modal/ProjectModal.astro';
+
+interface Tag {
+  name: string;
+  icon: string;
+}
+
+interface Project {
+  title: string;
+  description: string;
+  tags: Tag[];
+  image: ImageMetadata;
+  href?: string;
+  gallery?: ImageMetadata[];
+}
+
+interface Props {
+  id: string;
+  project: Project;
+}
+
+const { id, project } = Astro.props;
+const gallery = project.gallery ?? [project.image];
+---
+
+<ProjectCard
+  title={project.title}
+  description={project.description}
+  tags={project.tags}
+  image={project.image}
+  href={project.href}
+  modalId={id}
+/>
+
+<ProjectModal id={id} title={project.title} gallery={gallery} tags={project.tags} href={project.href}>
+  <slot />
+</ProjectModal>

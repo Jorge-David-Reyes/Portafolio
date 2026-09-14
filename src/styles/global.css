@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+    /* tonos del océano */
+    --color-abyss-900:       #061620;
+    --color-deep-800:        #0c2233;
+    --color-mid-700:         #123147;
+    --color-surface-500:     #3f8f95;
+    --color-foam-100:        #eaf2f0;
+    --color-foam-dim-300:    #a9bdc2;
+    --color-sunray-gold:     #d9a441;
+    --color-sunray-gold-dim: #8a6c33;
+
+    /*  Roles semánticos */
+    --color-main:       #061620;
+    --color-surface:    #123147;
+    --color-primary:    #eaf2f0;
+    --color-secondary:  #a9bdc2;
+    --color-accent:     #d9a441;
+    --color-accent-dim: #8a6c33;
+    --color-lagoon: #1c5d7a;
+
+    /* Bordes y separadores */
+    --color-border-subtle: rgba(234, 242, 240, 0.08);
+    --color-border-strong: rgba(234, 242, 240, 0.2); 
+
+    /* Estados interactivos */
+    --color-accent-hover:  #e8b95c;
+    --color-surface-hover: #1a3d57; 
+
+    /* Validación de formulario */
+    --color-success:      #4a9d6f;
+    --color-success-bg:   rgba(74, 157, 111, 0.1); 
+    --color-error:        #c0605a;
+    --color-error-bg:     rgba(192, 96, 90, 0.1);
+
+    /* Tipografía  */
+    --font-display: "Fraunces", serif; 
+    --font-body:    "Inter", sans-serif;
+    --font-mono:    "IBM Plex Mono", monospace; 
+}

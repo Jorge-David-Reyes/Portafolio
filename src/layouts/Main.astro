@@ -1,0 +1,83 @@
+---
+import '@/styles/global.css';
+import { Footer, Header } from '@/components';
+
+interface Props {
+    title: string | null;
+}
+const { title } = Astro.props;
+---
+
+<html lang="es" class="">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <script is:inline>
+            document.documentElement.classList.add('js');
+        </script>
+    </head>
+    <body class="flex flex-col min-h-dvh text-primary">
+<div class="fixed inset-0 -z-20 bg-lagoon"></div>
+<canvas id="reveal-curtain" class="fixed inset-0 -z-10 pointer-events-none"></canvas>
+
+        <Header/>
+        <main class="layout-main flex-1">
+            <slot />
+        </main>
+        <Footer />
+    </body>
+</html>
+
+<script>
+  import { initScrollReveal } from '@/scripts/scrollReveal';
+  import { initRevealCurtain } from '@/scripts/revealCurtain';
+
+  initScrollReveal();
+  initRevealCurtain('reveal-curtain');
+</script>
+
+<style is:global lang="scss">
+.no-scrollbar {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE/Edge viejo */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari, Edge nuevo */
+}
+
+.text-gradient {
+    background-image: linear-gradient(90deg, var(--color-accent), var(--color-foam-100));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+canvas#reveal-curtain {
+  background-color: var(--color-main);
+}
+.js canvas#reveal-curtain {
+  background-color: transparent;
+}
+
+/* ---- Reveal on scroll ---- */
+@media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .js [data-reveal].is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes nudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+}
+</style>

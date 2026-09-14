@@ -1,0 +1,33 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const socials = [
+  { name: 'GitHub', icon: 'simple-icons:github', href: 'https://github.com/Jorge-David-Reyes' },
+  { name: 'LinkedIn', icon: 'simple-icons:linkedin', href: 'https://linkedin.com/in/jorge-reyes-2a998428a' },
+  { name: 'Correo', icon: 'lucide:mail', href: 'mailto:jorge.reyes.1650@gmail.com' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border-subtle mt-8">
+  <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="font-mono text-xs text-secondary">
+      © {year} Jorge Reyes
+    </p>
+
+    <div class="flex items-center gap-4">
+      {socials.map(social => (
+        <a
+          href={social.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={social.name}
+          class="text-secondary hover:text-accent transition-colors"
+        >
+          <Icon name={social.icon} class="w-5 h-5" />
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>

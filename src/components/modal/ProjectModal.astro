@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+
+interface Tag {
+  name: string;
+  icon: string;
+}
+
+interface Props {
+  id: string;
+  title: string;
+  gallery: ImageMetadata[];
+  tags?: Tag[];
+  href?: string;
+}
+
+const { id, title, gallery = [], tags = [], href } = Astro.props;
+const hasGallery = gallery.length > 0;
+const hasMultiple = gallery.length > 1;
+---
+
+<div id={id} data-project-modal aria-hidden="true" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 invisible pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby={`${id}-title`}>
+  <button type="button" data-modal-close aria-label="Cerrar modal" class="absolute inset-0 bg-main/80 backdrop-blur-sm cursor-default"></button>
+
+  <div data-modal-panel class="relative w-full max-w-7xl max-h-[92vh] flex flex-col bg-surface border border-border-strong rounded-lg shadow-xl opacity-0 scale-95 transition-all duration-300 ease-out">
+
+    <div class="flex items-start justify-between gap-4 p-6 pb-4 border-b border-border-subtle shrink-0">
+      <h3 id={`${id}-title`} class="font-display font-semibold text-xl text-primary">{title}</h3>
+      <button type="button" data-modal-close aria-label="Cerrar" class="text-secondary hover:text-accent hover:cursor-pointer transition-colors p-1 -m-1">
+        <Icon name="lucide:x" class="w-5 h-5" />
+      </button>
+    </div>
+
+    <div class="overflow-y-auto grid grid-cols-1 md:grid-cols-5 gap-6 p-6">
+
+      {hasGallery && (
+        <div data-gallery class="md:col-span-3">
+          <div class="relative overflow-hidden rounded border border-border-subtle bg-abyss-900">
+            <div data-gallery-track class="flex transition-transform duration-300">
+              {gallery.map((img, i) => (
+                <div class="w-full shrink-0">
+                  <Image src={img} alt={`Imagen ${i + 1} del proyecto ${title}`} class="w-full aspect-video object-cover" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {hasMultiple && (
+            <div class="flex items-center justify-between mt-3">
+              <button type="button" data-gallery-prev aria-label="Imagen anterior" class="text-secondary hover:text-accent hover:cursor-pointer transition-colors p-2 -m-2">
+                <Icon name="lucide:chevron-left" class="w-6 h-6" />
+              </button>
+              <span data-gallery-counter class="font-mono text-sm text-secondary">1 / {gallery.length}</span>
+              <button type="button" data-gallery-next aria-label="Imagen siguiente" class="text-secondary hover:text-accent hover:cursor-pointer transition-colors p-2 -m-2">
+                <Icon name="lucide:chevron-right" class="w-6 h-6" />
+              </button>
+            </div>
+          )}
+
+          {tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mt-4">
+              {tags.map(tag => (
+                <span class="flex items-center gap-1.5 px-4 py-2 bg-abyss-900 border border-border-subtle rounded-full font-mono text-xs text-accent">
+                  <Icon name={tag.icon} class="w-7 h-7" />
+                  {tag.name}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {href && (
+            <a href={href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-accent font-medium hover:text-accent-hover transition-colors mt-4">
+              Visitar sitio <Icon name="lucide:external-link" class="w-4 h-4" />
+            </a>
+          )}
+        </div>
+      )}
+
+      <div class="md:col-span-2 space-y-4 text-sm text-secondary leading-relaxed">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
