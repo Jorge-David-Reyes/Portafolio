@@ -9,3 +9,4 @@ export { default as InProgressChip } from './chip/InProgressChip.astro';
 export { default as ContactForm } from './form/ContactForm.astro';
 export { default as Footer } from './Footer.astro'
 export { default as CertificateCard } from './card/CertificateCard.astro'
+export { default as PixelAvatar } from './PixelAvatar.astro'

@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import avatarImg from '@/assets/avatar/avatar-8bit.png';
+---
+
+<div class="w-40 sm:w-48 lg:w-56 aspect-square rounded-lg overflow-hidden border border-border-strong bg-surface shrink-0">
+  <Image
+    src={avatarImg}
+    alt="Retrato de Jorge Reyes en estilo pixel art 8-bit"
+    class="w-full h-full object-cover [image-rendering:pixelated]"
+  />
+</div>
