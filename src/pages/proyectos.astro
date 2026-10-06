@@ -44,22 +44,36 @@ const contributions = await getContributions(GITHUB_USER);
 
 				<ProjectShowcase id="proyecto-noticias" project={noticias}>
 					<p>
-						Desarrollé un panel administrativo completo con Vuetify + TypeScript para la gestión de
-						noticias y contenido del sitio institucional, pensado para que el personal de comunicación
-						del IPICYT pudiera publicar y editar información sin depender de un desarrollador.
+						Desarrollé de principio a fin el CMS con el que el IPICYT publica sus noticias, sliders y
+						archivos, pensado para que el personal de comunicación y de cada división pudiera gestionar
+						su contenido sin depender de un desarrollador.
 					</p>
 					<p>
-						Como parte del proyecto, migré los datos históricos de noticias de Oracle a MySQL,
-						consolidando el contenido en una sola base de datos y simplificando su mantenimiento a
-						futuro.
+						El sistema da servicio a la sección principal y a las cinco divisiones académicas: cada una
+						administra su propio contenido, y una noticia o un slider puede publicarse en varias
+						secciones a la vez.
+					</p>
+					<p>
+						En el backend diseñé la base de datos que soporta el CMS y la API en Laravel. Las noticias
+						históricas vivían en tablas de Oracle con una estructura antigua: las migré a MySQL
+						adaptándolas al nuevo modelo, y a partir de ahí todas las noticias nuevas se guardan en él.
 					</p>
 					<div class="space-y-2">
-						<h4 class="font-display font-medium text-primary text-base">Lo que hice</h4>
+						<h4 class="font-display font-medium text-primary text-base">Frontend</h4>
 						<ul class="list-disc pl-5 space-y-1.5">
-						<li>Panel administrativo con Vuetify + TypeScript.</li>
-						<li>Sistema de gestión de noticias y contenido editorial.</li>
-						<li>Migración de datos históricos de Oracle a MySQL.</li>
-						<li>Backend en Laravel conectado al mismo modelo de datos del sitio principal.</li>
+						<li>Panel con Vue 3, Vuetify, TypeScript y Pinia, organizado por módulos (noticias, sliders, archivos, usuarios).</li>
+						<li>Editor enriquecido sobre TipTap con un registro de extensiones propio: imágenes, galerías, tablas, video, YouTube, botones e íconos.</li>
+						<li>Sliders con fecha de caducidad, límite de activos y reordenamiento por arrastre.</li>
+						<li>Gestor de archivos con carpetas, subida múltiple, papelera y búsqueda con filtros.</li>
+						<li>Usuarios con roles y permisos, protegidos también a nivel de rutas.</li>
+						</ul>
+					</div>
+					<div class="space-y-2">
+						<h4 class="font-display font-medium text-primary text-base">Backend y datos</h4>
+						<ul class="list-disc pl-5 space-y-1.5">
+						<li>Diseño de la base de datos en MySQL para noticias, sliders, archivos, secciones y permisos.</li>
+						<li>API REST en Laravel con autenticación por sesión (Sanctum).</li>
+						<li>Migración de las tablas de noticias de Oracle a MySQL, transformando la estructura antigua al nuevo modelo.</li>
 						</ul>
 					</div>
 				</ProjectShowcase>
@@ -93,8 +107,10 @@ const contributions = await getContributions(GITHUB_USER);
 
 <script>
 	import { initProjectModals } from '@/scripts/projectModal';
+	import { initCardSlideshows } from '@/scripts/cardSlideshow';
 	document.addEventListener('astro:page-load', () => {
 		initProjectModals();
+		initCardSlideshows();
 		const contrib = document.getElementById('contrib-scroll');
 		if (contrib) contrib.scrollLeft = contrib.scrollWidth;
 	});

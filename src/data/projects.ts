@@ -8,6 +8,14 @@ import IPICYT3 from '@/assets/projects/IPICYT/IPICYT3.webp';
 import IPICYT4 from '@/assets/projects/IPICYT/IPICYT4.webp';
 import IPICYT5 from '@/assets/projects/IPICYT/IPICYT5.webp';
 
+import sinoticias1 from '@/assets/projects/Sinoticias/sinoticias-1.webp';
+import sinoticias2 from '@/assets/projects/Sinoticias/sinoticias-2.webp';
+import sinoticias3 from '@/assets/projects/Sinoticias/sinoticias-3.webp';
+import sinoticias4 from '@/assets/projects/Sinoticias/sinoticias-4.webp';
+import sinoticias5 from '@/assets/projects/Sinoticias/sinoticias-5.webp';
+import sinoticias6 from '@/assets/projects/Sinoticias/sinoticias-6.webp';
+import sinoticias7 from '@/assets/projects/Sinoticias/sinoticias-7.webp';
+
 export const projects = [
   {
     title: 'Página institucional IPICYT',
@@ -33,6 +41,7 @@ export const projects = [
       { name: 'Laravel', icon: 'logos:laravel' },
       { name: 'MySQL', icon: 'simple-icons:mysql' },
     ],
+    gallery: [noticiasPreview, sinoticias1, sinoticias2, sinoticias3, sinoticias4, sinoticias5, sinoticias6, sinoticias7]
   },
   {
     title: 'CONAGEQ 2026',

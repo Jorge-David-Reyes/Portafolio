@@ -13,11 +13,12 @@ interface Props {
   description: string;
   tags: Tag[];
   image: ImageMetadata;
+  images?: ImageMetadata[];
   href?: string;
   modalId?: string;
 }
 
-const { title, description, tags, image, href = '#', modalId } = Astro.props;
+const { title, description, tags, image, images = [image], href = '#', modalId } = Astro.props;
 ---
 
 <article data-reveal class="bg-surface border border-border-subtle rounded-lg space-y-4 hover:border-accent-dim hover:-translate-y-1 hover:shadow-lg hover:shadow-elevation transition-all duration-300 group flex flex-col justify-between">
@@ -27,12 +28,19 @@ const { title, description, tags, image, href = '#', modalId } = Astro.props;
     aria-haspopup="dialog"
     class="text-left w-full cursor-pointer space-y-4"
   >
-    <div class="aspect-video bg-abyss-900 rounded-t-lg border border-border-subtle flex items-center justify-center text-secondary text-xs overflow-hidden">
+    <div data-card-slideshow class="relative aspect-video bg-abyss-900 rounded-t-lg border border-border-subtle text-secondary text-xs overflow-hidden">
+      {images.map((img, i) => (
         <Image
-            src={image}
-            alt={`Captura de pantalla del proyecto ${title}`}
-            class="w-full h-full object-cover"
+          src={img}
+          alt={`Captura ${i + 1} del proyecto ${title}`}
+          loading={i === 0 ? 'eager' : 'lazy'}
+          data-slide
+          class:list={[
+            'absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out',
+            i === 0 ? 'opacity-100' : 'opacity-0',
+          ]}
         />
+      ))}
     </div>
     <div class="space-y-3 px-4">
       <h3 class="font-display font-semibold text-lg text-primary">{title}</h3>
