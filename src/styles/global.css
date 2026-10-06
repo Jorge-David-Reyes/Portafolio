@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
+/* Variante `light:` para ajustes puntuales del tema claro, p. ej. `light:hidden` */
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
 @theme {
     /* tonos del océano */
     --color-abyss-900:       #061620;
@@ -25,6 +28,9 @@
     --color-border-subtle: rgba(234, 242, 240, 0.08);
     --color-border-strong: rgba(234, 242, 240, 0.2); 
 
+    /* Sombra de elevación (tarjetas al pasar el mouse) */
+    --color-elevation: rgba(0, 0, 0, 0.3);
+
     /* Estados interactivos */
     --color-accent-hover:  #e8b95c;
     --color-surface-hover: #1a3d57; 
@@ -39,4 +45,43 @@
     --font-display: "Fraunces", serif; 
     --font-body:    "Inter", sans-serif;
     --font-mono:    "IBM Plex Mono", monospace; 
+}
+
+/* ---- Tema oscuro (principal) ---- */
+:root {
+    color-scheme: dark;
+}
+
+/* ---- Tema claro: arena y mar de día, mismo acento dorado pero más profundo para que contraste ---- */
+:root[data-theme="light"] {
+    color-scheme: light;
+
+    --color-abyss-900:       #ebe5d8;
+    --color-main:            #f6f3ec;
+    --color-surface:         #ffffff;
+    --color-primary:         #0c2233;
+    --color-secondary:       #4a6470;
+    --color-accent:          #9a6a14;
+    --color-accent-dim:      #c9a55e;
+    --color-lagoon:          #cfe3e6;
+    --color-foam-100:        #0c2233;
+
+    --color-border-subtle:   rgba(12, 34, 51, 0.1);
+    --color-border-strong:   rgba(12, 34, 51, 0.22);
+    --color-elevation:       rgba(12, 34, 51, 0.12);
+
+    --color-accent-hover:    #7d550e;
+    --color-surface-hover:   #f0ebe0;
+
+    --color-success:         #2f7d52;
+    --color-success-bg:      rgba(47, 125, 82, 0.1);
+    --color-error:           #a8433d;
+    --color-error-bg:        rgba(168, 67, 61, 0.1);
+}
+
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, fill 0.3s ease !important;
 }

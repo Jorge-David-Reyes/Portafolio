@@ -19,7 +19,7 @@ const isActive = (href: string) => href === currentPath;
       Jorge<span class="text-accent">.</span>Reyes
     </a>
 
-    <nav class="hidden sm:flex gap-8 font-mono text-sm text-secondary">
+    <nav class="hidden sm:flex sm:ml-auto gap-8 font-mono text-sm text-secondary">
       {links.map(link => (
         <a
           href={link.href}
@@ -33,6 +33,18 @@ const isActive = (href: string) => href === currentPath;
         </a>
       ))}
     </nav>
+
+    <div class="flex items-center gap-4 sm:gap-0">
+    <button
+      type="button"
+      data-theme-toggle
+      aria-label="Cambiar a tema claro"
+      aria-pressed="false"
+      class="sm:ml-8 relative w-5 h-5 text-secondary hover:text-accent transition-colors duration-300 cursor-pointer"
+    >
+      <Icon name="lucide:sun" class="w-5 h-5 light:hidden" />
+      <Icon name="lucide:moon" class="w-5 h-5 hidden light:block" />
+    </button>
 
     <button
       id="menu-toggle"
@@ -51,6 +63,7 @@ const isActive = (href: string) => href === currentPath;
         class="w-6 h-6 absolute inset-0 transition-all duration-300 opacity-0 -rotate-90"
       />
     </button>
+    </div>
   </div>
 
   <nav
@@ -75,6 +88,10 @@ const isActive = (href: string) => href === currentPath;
 </header>
 
 <script>
+  import { initThemeToggle } from '@/scripts/theme';
+
+  document.addEventListener('astro:page-load', initThemeToggle);
+
   const OPEN_CLASSES = ['opacity-100', 'translate-y-0', 'scale-y-100'];
   const CLOSED_CLASSES = ['opacity-0', '-translate-y-2', 'scale-y-95', 'pointer-events-none', 'invisible'];
 

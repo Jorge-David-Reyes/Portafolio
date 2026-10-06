@@ -19,10 +19,19 @@ const { title, description, fillViewport = false } = Astro.props;
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
     <script is:inline>
-      document.documentElement.classList.add("js");
-      document.addEventListener("astro:after-swap", () => {
-        document.documentElement.classList.add("js");
-      });
+      (function () {
+        var stored = null;
+        try { stored = localStorage.getItem("theme"); } catch (e) {}
+        var theme = stored === "light" ? "light" : "dark";
+        var root = document.documentElement;
+        root.classList.add("js");
+        root.dataset.theme = theme;
+
+        document.addEventListener("astro:before-swap", function (event) {
+          event.newDocument.documentElement.classList.add("js");
+          event.newDocument.documentElement.dataset.theme = root.dataset.theme;
+        });
+      })();
     </script>
     <ClientRouter />
   </head>

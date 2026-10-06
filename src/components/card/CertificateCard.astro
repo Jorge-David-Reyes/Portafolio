@@ -19,7 +19,7 @@ interface Props {
 const { title, issuer, date, image, links } = Astro.props;
 ---
 
-<article data-reveal class="sm:h-full sm:flex sm:flex-col bg-surface border border-border-subtle rounded-lg overflow-hidden hover:border-accent-dim hover:-translate-y-1 hover:shadow-lg hover:shadow-black/30 transition-all duration-300 group">
+<article data-reveal class="sm:h-full sm:flex sm:flex-col bg-surface border border-border-subtle rounded-lg overflow-hidden hover:border-accent-dim hover:-translate-y-1 hover:shadow-lg hover:shadow-elevation transition-all duration-300 group">
   <div class="aspect-[4/3] bg-abyss-900">
     <Image
       src={image}
