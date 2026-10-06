@@ -15,9 +15,9 @@ export const projects = [
     image: ipicytPreview,
     href: 'https://ipicyt.edu.mx',
     tags: [
-      { name: 'Nuxt.js', icon: 'simple-icons:nuxtdotjs' },
-      { name: 'TypeScript', icon: 'simple-icons:typescript' },
-      { name: 'Laravel', icon: 'simple-icons:laravel' },
+      { name: 'Nuxt.js', icon: 'logos:nuxt-icon' },
+      { name: 'TypeScript', icon: 'logos:typescript-icon' },
+      { name: 'Laravel', icon: 'logos:laravel' },
       { name: 'MySQL', icon: 'simple-icons:mysql' },
     ],
     gallery: [ipicytPreview, IPICYT1, IPICYT2, IPICYT3, IPICYT4, IPICYT5]
@@ -28,9 +28,9 @@ export const projects = [
     image: noticiasPreview,
     href: 'https://ipicyt.edu.mx/sinoticias',
     tags: [
-      { name: 'Vuetify', icon: 'simple-icons:vuetify' },
-      { name: 'TypeScript', icon: 'simple-icons:typescript' },
-      { name: 'Laravel', icon: 'simple-icons:laravel' },
+      { name: 'Vuetify', icon: 'logos:vuetifyjs' },
+      { name: 'TypeScript', icon: 'logos:typescript-icon' },
+      { name: 'Laravel', icon: 'logos:laravel' },
       { name: 'MySQL', icon: 'simple-icons:mysql' },
     ],
   },
@@ -41,7 +41,7 @@ export const projects = [
     href: 'https://ipicyt.edu.mx/conageq2026',
     tags: [
       { name: 'Astro', icon: 'simple-icons:astro' },
-      { name: 'TypeScript', icon: 'simple-icons:typescript' },
+      { name: 'TypeScript', icon: 'logos:typescript-icon' },
     ],
   },
 ];

@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
+import TechIcon from '@/components/TechIcon.astro';
 
 interface Tag {
   name: string;
@@ -38,7 +39,7 @@ const { title, description, tags, image, href = '#', modalId } = Astro.props;
       <div class="flex flex-wrap gap-1.5 font-mono text-xs text-accent">
         {tags.map(tag => (
           <span class="flex items-center gap-1.5 px-3 py-1.5 bg-abyss-900 rounded">
-            <Icon name={tag.icon} class="w-4 h-4" />
+            <TechIcon name={tag.icon} class="w-4 h-4" />
             {tag.name}
           </span>
         ))}

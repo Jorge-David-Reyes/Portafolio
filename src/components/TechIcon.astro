@@ -1,0 +1,21 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+// Los logos a color (logos:*) ya traen sus colores. Estos son monocromáticos porque
+// su logo oficial es oscuro y se pierde sobre el fondo; se pintan con un color de marca legible.
+const BRAND_COLORS: Record<string, string> = {
+  'simple-icons:astro': '#BC52EE',
+  'simple-icons:mysql': '#F29111',
+  'simple-icons:ibm': '#4589FF',
+};
+
+const { name, class: className } = Astro.props;
+const color = BRAND_COLORS[name];
+---
+
+<Icon name={name} class={className} style={color ? `color: ${color}` : undefined} />
