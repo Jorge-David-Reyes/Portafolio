@@ -3,8 +3,32 @@ import pythonProjectImg from '@/assets/certificates/python-proyecto.webp';
 import pythonCienciaImg from '@/assets/certificates/python-ciencia.webp';
 import introDataEngImg from '@/assets/certificates/intro-data-eng.webp';
 import sqlImg from '@/assets/certificates/sql-postgresql.webp';
+import netbackend from '@/assets/certificates/net-backend.webp';
 
-export const certificates = [
+export interface CredentialLink {
+  label: string;
+  icon: string;
+  url: string;
+}
+
+export interface Credential {
+  title: string;
+  issuer: string;
+  date: string;
+  image: ImageMetadata;
+  links: CredentialLink[];
+}
+
+export const courses: Credential[] = [
+  {
+    title: '.NET Backend: .NET Core, SQL Server y seguridad JWT',
+    issuer: 'Udemy',
+    date: 'Agosto 2026',
+    image: netbackend,
+    links: [
+      { label: 'Udemy', icon: 'simple-icons:udemy', url: 'https://www.udemy.com/certificate/UC-2178604b-e944-423c-8ede-74bbe5b03972/' },
+    ],
+  },
   {
     title: 'Python Project for Data Engineering',
     issuer: 'Coursera',
@@ -55,3 +79,5 @@ export const certificates = [
     ],
   },
 ];
+
+export const certifications: Credential[] = [];

@@ -2,17 +2,20 @@
 import { Icon } from 'astro-icon/components';
 
 const links = [
-  { href: '#inicio', label: 'Inicio' },
-  { href: '#proyectos', label: 'Proyectos' },
-  { href: '#sobre-mi', label: 'Sobre mí' },
-  { href: '#certificaciones', label: 'Certificaciones' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: '/', label: 'Inicio' },
+  { href: '/proyectos', label: 'Proyectos' },
+  { href: '/sobre-mi', label: 'Sobre mí' },
+  { href: '/formacion', label: 'Formación' },
+  { href: '/contacto', label: 'Contacto' },
 ];
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => href === currentPath;
 ---
 
 <header class="sticky top-0 z-50 bg-main border-b border-border-subtle">
   <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
-    <a href="#inicio" class="font-display text-lg font-semibold text-primary">
+    <a href="/" class="font-display text-lg font-semibold text-primary">
       Jorge<span class="text-accent">.</span>Reyes
     </a>
 
@@ -20,9 +23,11 @@ const links = [
       {links.map(link => (
         <a
           href={link.href}
-          data-nav-link
-          data-target={link.href.slice(1)}
-          class="nav-link relative pb-1 hover:text-accent transition-colors duration-300"
+          aria-current={isActive(link.href) ? 'page' : undefined}
+          class:list={[
+            'relative pb-1 hover:text-accent transition-colors duration-300',
+            isActive(link.href) && 'text-accent border-b-2 border-accent',
+          ]}
         >
           {link.label}
         </a>
@@ -55,7 +60,14 @@ const links = [
            opacity-0 -translate-y-2 scale-y-95 pointer-events-none invisible"
   >
     {links.map(link => (
-      <a href={link.href} class="py-2.5 border-b border-border-subtle hover:text-accent transition-colors duration-300 last:border-b-0">
+      <a
+        href={link.href}
+        aria-current={isActive(link.href) ? 'page' : undefined}
+        class:list={[
+          'py-2.5 border-b border-border-subtle hover:text-accent transition-colors duration-300 last:border-b-0',
+          isActive(link.href) && 'text-accent',
+        ]}
+      >
         {link.label}
       </a>
     ))}
@@ -63,63 +75,43 @@ const links = [
 </header>
 
 <script>
-  const toggle = document.getElementById('menu-toggle')!;
-  const menu = document.getElementById('mobile-menu')!;
-  const iconMenu = document.getElementById('icon-menu')!;
-  const iconClose = document.getElementById('icon-close')!;
-
   const OPEN_CLASSES = ['opacity-100', 'translate-y-0', 'scale-y-100'];
   const CLOSED_CLASSES = ['opacity-0', '-translate-y-2', 'scale-y-95', 'pointer-events-none', 'invisible'];
 
-  function openMenu() {
-    menu.classList.remove(...CLOSED_CLASSES);
-    menu.classList.add(...OPEN_CLASSES);
-    iconMenu.classList.remove('opacity-100', 'rotate-0');
-    iconMenu.classList.add('opacity-0', 'rotate-90');
-    iconClose.classList.remove('opacity-0', '-rotate-90');
-    iconClose.classList.add('opacity-100', 'rotate-0');
-    toggle.setAttribute('aria-expanded', 'true');
-  }
+  function initMobileMenu() {
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const iconMenu = document.getElementById('icon-menu');
+    const iconClose = document.getElementById('icon-close');
+    if (!toggle || !menu || !iconMenu || !iconClose) return;
 
-  function closeMenu() {
-    menu.classList.remove(...OPEN_CLASSES);
-    menu.classList.add(...CLOSED_CLASSES);
-    iconMenu.classList.remove('opacity-0', 'rotate-90');
-    iconMenu.classList.add('opacity-100', 'rotate-0');
-    iconClose.classList.remove('opacity-100', 'rotate-0');
-    iconClose.classList.add('opacity-0', '-rotate-90');
-    toggle.setAttribute('aria-expanded', 'false');
-  }
+    function openMenu() {
+      menu!.classList.remove(...CLOSED_CLASSES);
+      menu!.classList.add(...OPEN_CLASSES);
+      iconMenu!.classList.remove('opacity-100', 'rotate-0');
+      iconMenu!.classList.add('opacity-0', 'rotate-90');
+      iconClose!.classList.remove('opacity-0', '-rotate-90');
+      iconClose!.classList.add('opacity-100', 'rotate-0');
+      toggle!.setAttribute('aria-expanded', 'true');
+    }
 
-  toggle.addEventListener('click', () => {
-    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-    isOpen ? closeMenu() : openMenu();
-  });
+    function closeMenu() {
+      menu!.classList.remove(...OPEN_CLASSES);
+      menu!.classList.add(...CLOSED_CLASSES);
+      iconMenu!.classList.remove('opacity-0', 'rotate-90');
+      iconMenu!.classList.add('opacity-100', 'rotate-0');
+      iconClose!.classList.remove('opacity-100', 'rotate-0');
+      iconClose!.classList.add('opacity-0', '-rotate-90');
+      toggle!.setAttribute('aria-expanded', 'false');
+    }
 
-  menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-
-  const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
-  const sections = Array.from(navLinks)
-    .map(link => document.getElementById(link.dataset.target!))
-    .filter((el): el is HTMLElement => el !== null);
-
-  function setActiveLink(id: string) {
-    navLinks.forEach(link => {
-      const isActive = link.dataset.target === id;
-      link.classList.toggle('text-accent', isActive);
-      link.classList.toggle('border-b-2', isActive);
-      link.classList.toggle('border-accent', isActive);
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      isOpen ? closeMenu() : openMenu();
     });
+
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
   }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) setActiveLink(entry.target.id);
-      });
-    },
-    { rootMargin: '-40% 0px -50% 0px' }
-  );
-
-  sections.forEach(section => observer.observe(section));
+  document.addEventListener('astro:page-load', initMobileMenu);
 </script>

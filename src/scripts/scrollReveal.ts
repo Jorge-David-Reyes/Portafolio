@@ -1,8 +1,8 @@
-let initialized = false;
+let observer: IntersectionObserver | null = null;
 
 export function initScrollReveal() {
-  if (initialized) return;
-  initialized = true;
+  observer?.disconnect();
+  observer = null;
 
   const elements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
   if (elements.length === 0) return;
@@ -12,7 +12,7 @@ export function initScrollReveal() {
     return;
   }
 
-  const observer = new IntersectionObserver(
+  observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         entry.target.classList.toggle('is-visible', entry.isIntersecting);
@@ -24,6 +24,6 @@ export function initScrollReveal() {
   elements.forEach((el) => {
     const delay = el.dataset.revealDelay;
     if (delay) el.style.transitionDelay = `${delay}ms`;
-    observer.observe(el);
+    observer!.observe(el);
   });
 }

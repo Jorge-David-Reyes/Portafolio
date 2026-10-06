@@ -1,0 +1,116 @@
+---
+import { LayoutMain } from "@/layouts";
+import { CertificateCard } from '@/components';
+import { Icon } from 'astro-icon/components';
+import { courses, certifications } from '@/data/certificates';
+
+const tabs = [
+	{ id: 'cursos', label: 'Cursos', count: courses.length, items: courses },
+	{ id: 'certificaciones', label: 'Certificaciones', count: certifications.length, items: certifications },
+];
+---
+
+<LayoutMain
+	title="Formación | Jorge Reyes"
+	description="Cursos y certificaciones de Jorge Reyes."
+	fillViewport
+>
+	<div class="sm:flex sm:flex-col sm:flex-1 sm:min-h-0">
+		<section class="space-y-6 sm:flex sm:flex-col sm:flex-1 sm:min-h-0">
+			<h1 data-reveal class="font-display text-2xl font-medium text-primary">Formación</h1>
+
+			<div class="flex items-center justify-between gap-4">
+				<div data-reveal role="tablist" aria-label="Tipo de formación" class="inline-flex gap-1 p-1 bg-surface border border-border-subtle rounded-full font-mono text-xs sm:text-sm">
+					{tabs.map((tab, i) => (
+						<button
+							type="button"
+							role="tab"
+							id={`tab-${tab.id}`}
+							aria-controls={`panel-${tab.id}`}
+							aria-selected={i === 0 ? 'true' : 'false'}
+							tabindex={i === 0 ? 0 : -1}
+							data-tab
+							class="flex items-center gap-2 px-4 py-1.5 rounded-full text-secondary cursor-pointer transition-colors duration-300
+								hover:text-accent
+								aria-selected:bg-abyss-900 aria-selected:text-accent"
+						>
+							{tab.label}
+							<span class="text-[10px] opacity-70">{tab.count}</span>
+						</button>
+					))}
+				</div>
+
+				<Icon
+					id="cert-scroll-hint"
+					name="lucide:arrow-right"
+					class="w-4 h-4 text-secondary sm:hidden animate-[nudge_1.4s_ease-in-out_infinite] transition-opacity duration-300"
+				/>
+			</div>
+
+			{tabs.map((tab, i) => (
+				<div
+					role="tabpanel"
+					id={`panel-${tab.id}`}
+					aria-labelledby={`tab-${tab.id}`}
+					hidden={i !== 0}
+					class="sm:flex sm:flex-col sm:flex-1 sm:min-h-0"
+				>
+					{tab.items.length > 0 ? (
+						<div
+							id={i === 0 ? 'cert-scroll' : undefined}
+							class="courses-grid no-scrollbar flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 -mx-6 px-6
+									scroll-pl-6 scroll-pr-6
+									sm:grid sm:grid-cols-2 sm:gap-6 sm:snap-none sm:mx-0 sm:px-0
+									sm:flex-1 sm:min-h-[22rem] sm:content-start sm:overflow-x-hidden sm:overflow-y-auto sm:pt-1 sm:pr-2
+									lg:grid-cols-3"
+						>
+							{tab.items.map(item => (
+								<div class="shrink-0 w-[75%] snap-start sm:w-auto sm:shrink">
+									<CertificateCard
+										title={item.title}
+										issuer={item.issuer}
+										date={item.date}
+										image={item.image}
+										links={item.links}
+									/>
+								</div>
+							))}
+						</div>
+					) : (
+						<div class="flex flex-col items-center justify-center gap-4 text-center py-16 px-6 border border-dashed border-border-subtle rounded-lg bg-surface/40">
+							<Icon name="lucide:circle-help" class="w-12 h-12 text-accent-dim" />
+							<div class="space-y-1.5">
+								<p class="font-display text-lg text-primary">Aún no hay {tab.label.toLowerCase()} por aquí</p>
+								<p class="text-secondary text-sm max-w-sm">
+									Cuando obtenga alguna certificación oficial aparecerá en esta sección.
+								</p>
+							</div>
+						</div>
+					)}
+				</div>
+			))}
+		</section>
+	</div>
+</LayoutMain>
+
+<style>
+	@media (min-width: 640px) {
+		.courses-grid {
+			scrollbar-width: thin;
+			scrollbar-color: var(--color-accent-dim) transparent;
+		}
+	}
+</style>
+
+<script>
+	import { initScrollHint } from '@/scripts/scrollHint';
+	import { initTabs } from '@/scripts/tabs';
+
+	document.addEventListener('astro:page-load', () => {
+		initScrollHint('cert-scroll', 'cert-scroll-hint');
+		initTabs((panelId) => {
+			const hint = document.getElementById('cert-scroll-hint');
+			if (hint) hint.hidden = !document.getElementById(panelId)?.querySelector('#cert-scroll');
+		});
+	});
+</script>

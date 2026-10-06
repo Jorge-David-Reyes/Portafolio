@@ -1,0 +1,19 @@
+---
+import { LayoutMain } from "@/layouts";
+import { ContactForm } from '@/components';
+---
+
+<LayoutMain
+	title="Contacto | Jorge Reyes"
+	description="Contacta a Jorge Reyes para proyectos u oportunidades laborales."
+>
+	<div class="space-y-16">
+		<section class="space-y-6">
+			<h1 data-reveal class="font-display text-2xl font-medium text-primary text-center">Contacto</h1>
+			<p data-reveal class="text-secondary text-sm sm:text-base max-w-lg mx-auto text-center">
+				¿Tienes un proyecto en mente o buscas sumar a alguien al equipo? Escríbeme.
+			</p>
+			<ContactForm />
+		</section>
+	</div>
+</LayoutMain>

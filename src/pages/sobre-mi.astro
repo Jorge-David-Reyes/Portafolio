@@ -1,0 +1,33 @@
+---
+import { LayoutMain } from "@/layouts";
+import { Timeline, EducationCard } from '@/components';
+import { experience, education } from '@/data/experience';
+---
+
+<LayoutMain
+	title="Sobre mí | Jorge Reyes"
+	description="Educación y experiencia profesional de Jorge Reyes."
+>
+	<div class="space-y-16">
+		<section class="space-y-10">
+			<div class="space-y-4">
+				<h1 data-reveal class="font-display text-2xl font-medium text-primary">Sobre mí</h1>
+				<p data-reveal class="text-secondary text-sm sm:text-base leading-relaxed">
+					Ingeniero en Sistemas Inteligentes con más de 2 años de experiencia como desarrollador
+					Full Stack, especializado en Vue.js/Nuxt, TypeScript y Laravel. Actualmente ampliando
+					mis conocimientos hacia Ingeniería de Datos mediante el IBM Data Engineering Professional Certificate.
+				</p>
+			</div>
+
+			<div class="space-y-4">
+				<h2 class="font-mono text-sm tracking-widest uppercase text-secondary">Educación</h2>
+				<EducationCard role={education.role} place={education.place} period={education.period} />
+			</div>
+
+			<div class="space-y-6">
+				<h2 class="font-mono text-sm tracking-widest uppercase text-secondary">Experiencia</h2>
+				<Timeline items={experience} />
+			</div>
+		</section>
+	</div>
+</LayoutMain>

@@ -1,0 +1,86 @@
+---
+import { LayoutMain } from "@/layouts";
+import { ProjectShowcase } from '@/components';
+import { projects } from '@/data/projects';
+
+const [ipicyt, noticias, conageq] = projects;
+---
+
+<LayoutMain
+	title="Proyectos | Jorge Reyes"
+	description="Proyectos destacados de Jorge Reyes: sitio del IPICYT, panel de noticias y CONAGEQ 2026."
+>
+	<div class="space-y-16">
+		<section class="space-y-6">
+			<h1 data-reveal class="font-display text-2xl font-medium text-primary">Proyectos destacados</h1>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+				<ProjectShowcase id="proyecto-ipicyt" project={ipicyt}>
+					<p>
+						Desarrollé por completo la página institucional del IPICYT (ipicyt.edu.mx) y lideré su
+						migración de Vue.js a Nuxt + TypeScript, implementando renderizado del lado del servidor
+						(SSR) para corregir los metadatos Open Graph — esto mejoró tanto el posicionamiento en
+						buscadores como la vista previa del sitio al compartirlo en redes sociales.
+					</p>
+					<p>
+						En paralelo, reestructuré el backend completo en Laravel: modelé los datos en MySQL usando
+						Eloquent ORM, y desarrollé consultas de solo lectura sobre una base de datos Oracle existente
+						para integrar información institucional sin duplicar fuentes de verdad.
+					</p>
+					<div class="space-y-2">
+						<h4 class="font-display font-medium text-primary text-base">Lo que hice</h4>
+						<ul class="list-disc pl-5 space-y-1.5">
+						<li>Migración completa de Vue.js a Nuxt + TypeScript con SSR.</li>
+						<li>Corrección de metadatos Open Graph para mejorar SEO y compartidos en redes.</li>
+						<li>Reestructuración del backend en Laravel con modelado de datos en MySQL (Eloquent ORM).</li>
+						<li>Consultas de solo lectura sobre Oracle para integración de datos institucionales.</li>
+						<li>Soporte y mantenimiento continuo de la plataforma.</li>
+						</ul>
+					</div>
+				</ProjectShowcase>
+
+				<ProjectShowcase id="proyecto-noticias" project={noticias}>
+					<p>
+						Desarrollé un panel administrativo completo con Vuetify + TypeScript para la gestión de
+						noticias y contenido del sitio institucional, pensado para que el personal de comunicación
+						del IPICYT pudiera publicar y editar información sin depender de un desarrollador.
+					</p>
+					<p>
+						Como parte del proyecto, migré los datos históricos de noticias de Oracle a MySQL,
+						consolidando el contenido en una sola base de datos y simplificando su mantenimiento a
+						futuro.
+					</p>
+					<div class="space-y-2">
+						<h4 class="font-display font-medium text-primary text-base">Lo que hice</h4>
+						<ul class="list-disc pl-5 space-y-1.5">
+						<li>Panel administrativo con Vuetify + TypeScript.</li>
+						<li>Sistema de gestión de noticias y contenido editorial.</li>
+						<li>Migración de datos históricos de Oracle a MySQL.</li>
+						<li>Backend en Laravel conectado al mismo modelo de datos del sitio principal.</li>
+						</ul>
+					</div>
+				</ProjectShowcase>
+
+				<ProjectShowcase id="proyecto-conageq" project={conageq}>
+					<p>
+						Desarrollé desde cero el sitio web oficial del evento académico CONAGEQ 2026, usando Astro
+						para maximizar el rendimiento y tiempos de carga — clave para un sitio de evento donde la
+						mayoría de las visitas llegan desde enlaces compartidos y necesitan cargar rápido.
+					</p>
+					<div class="space-y-2">
+						<h4 class="font-display font-medium text-primary text-base">Lo que hice</h4>
+						<ul class="list-disc pl-5 space-y-1.5">
+						<li>Sitio oficial del evento CONAGEQ 2026, construido con Astro.</li>
+						<li>Desarrollo completo del frontend con TypeScript y JavaScript.</li>
+						<li>Optimización de carga aprovechando el enfoque "islands" de Astro.</li>
+						</ul>
+					</div>
+				</ProjectShowcase>
+			</div>
+		</section>
+	</div>
+</LayoutMain>
+
+<script>
+	import { initProjectModals } from '@/scripts/projectModal';
+	document.addEventListener('astro:page-load', initProjectModals);
+</script>

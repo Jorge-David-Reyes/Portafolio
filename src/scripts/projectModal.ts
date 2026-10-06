@@ -1,12 +1,11 @@
-let initialized = false;
+let keydownBound = false;
 
 const CONTAINER_CLOSED = ['opacity-0', 'invisible', 'pointer-events-none'];
 const PANEL_CLOSED = ['opacity-0', 'scale-95'];
 const PANEL_OPEN = ['opacity-100', 'scale-100'];
 
 export function initProjectModals() {
-  if (initialized) return;
-  initialized = true;
+  document.documentElement.style.overflow = '';
 
   const modals = Array.from(document.querySelectorAll<HTMLElement>('[data-project-modal]'));
 
@@ -26,11 +25,12 @@ export function initProjectModals() {
     initGallery(modal);
   });
 
+  if (keydownBound) return;
+  keydownBound = true;
+
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
-    modals.forEach((modal) => {
-      if (modal.getAttribute('aria-hidden') === 'false') closeModal(modal);
-    });
+    document.querySelectorAll<HTMLElement>('[data-project-modal][aria-hidden="false"]').forEach(closeModal);
   });
 }
 

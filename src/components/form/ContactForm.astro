@@ -65,5 +65,5 @@ const accessKey = import.meta.env.WEB3FORMS_KEY;
 
 <script>
   import { initContactForm } from '@/scripts/contactForm';
-  initContactForm('contact-form');
+  document.addEventListener('astro:page-load', () => initContactForm('contact-form'));
 </script>
