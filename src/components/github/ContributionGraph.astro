@@ -1,0 +1,105 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { ContributionCalendar, ContributionLevel } from '@/lib/github';
+
+interface Props {
+  calendar: ContributionCalendar;
+  username: string;
+}
+
+const { calendar, username } = Astro.props;
+
+const LEVEL_CLASSES: Record<ContributionLevel, string> = {
+  NONE: 'bg-abyss-900',
+  FIRST_QUARTILE: 'bg-accent/25',
+  SECOND_QUARTILE: 'bg-accent/50',
+  THIRD_QUARTILE: 'bg-accent/75',
+  FOURTH_QUARTILE: 'bg-accent',
+};
+const LEGEND: ContributionLevel[] = ['NONE', 'FIRST_QUARTILE', 'SECOND_QUARTILE', 'THIRD_QUARTILE', 'FOURTH_QUARTILE'];
+
+const weeks = calendar.weeks;
+const parseDate = (date: string) => new Date(`${date}T00:00:00`);
+
+const dayTitle = (count: number, date: string) => {
+  const formatted = parseDate(date).toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
+  if (count === 0) return `Sin contribuciones el ${formatted}`;
+  return `${count} ${count === 1 ? 'contribución' : 'contribuciones'} el ${formatted}`;
+};
+
+const monthLabels: { week: number; label: string }[] = [];
+let lastMonth = -1;
+weeks.forEach((week, i) => {
+  const firstDay = week.contributionDays[0];
+  if (!firstDay) return;
+  const date = parseDate(firstDay.date);
+  const month = date.getMonth();
+  if (month === lastMonth) return;
+  lastMonth = month;
+  const previous = monthLabels.at(-1);
+  if (previous && i - previous.week < 3) return;
+  monthLabels.push({ week: i, label: date.toLocaleDateString('es-MX', { month: 'short' }).replace('.', '') });
+});
+
+const dayLabels = [
+  { weekday: 1, label: 'Lun' },
+  { weekday: 3, label: 'Mié' },
+  { weekday: 5, label: 'Vie' },
+];
+
+const gridStyle = `grid-template-columns: repeat(${weeks.length}, minmax(0, 1fr))`;
+---
+
+<div data-reveal class="bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 space-y-4">
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <p class="font-mono text-xs text-secondary">
+      <span class="text-primary">{calendar.totalContributions.toLocaleString('es-MX')}</span> contribuciones en el último año
+    </p>
+    <a
+      href={`https://github.com/${username}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-1.5 font-mono text-xs text-secondary hover:text-accent transition-colors"
+    >
+      <Icon name="simple-icons:github" class="w-4 h-4" />
+      @{username}
+    </a>
+  </div>
+
+  <div id="contrib-scroll" class="no-scrollbar overflow-x-auto">
+    <div class="flex gap-2 min-w-[720px]">
+      <div class="grid grid-rows-[auto_repeat(7,minmax(0,1fr))] gap-[3px] font-mono text-[10px] text-secondary">
+        <span class="leading-none">&nbsp;</span>
+        {Array.from({ length: 7 }, (_, weekday) => (
+          <span class="leading-none flex items-center">{dayLabels.find(d => d.weekday === weekday)?.label}</span>
+        ))}
+      </div>
+
+      <div class="flex-1 space-y-[3px]">
+        <div class="grid font-mono text-[10px] text-secondary leading-none" style={gridStyle}>
+          {monthLabels.map(({ week, label }) => (
+            <span class="whitespace-nowrap capitalize" style={`grid-column: ${week + 1} / span 3`}>{label}</span>
+          ))}
+        </div>
+
+        <div class="grid grid-rows-7 grid-flow-col gap-[3px]" style={gridStyle} role="img" aria-label={`${calendar.totalContributions} contribuciones en GitHub en el último año`}>
+          {weeks.map((week, w) =>
+            week.contributionDays.map(day => (
+              <span
+                class:list={['aspect-square rounded-[2px]', LEVEL_CLASSES[day.contributionLevel]]}
+                style={`grid-column: ${w + 1}; grid-row: ${day.weekday + 1}`}
+                title={dayTitle(day.contributionCount, day.date)}
+              ></span>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-end gap-1.5 font-mono text-[10px] text-secondary">
+    Menos
+    {LEGEND.map(level => <span class:list={['w-2.5 h-2.5 rounded-[2px]', LEVEL_CLASSES[level]]}></span>)}
+    Más
+  </div>
+</div>

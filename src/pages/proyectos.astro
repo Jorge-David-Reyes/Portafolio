@@ -1,9 +1,13 @@
 ---
 import { LayoutMain } from "@/layouts";
-import { ProjectShowcase } from '@/components';
+import { ProjectShowcase, ContributionGraph } from '@/components';
 import { projects } from '@/data/projects';
+import { getContributions } from '@/lib/github';
 
 const [ipicyt, noticias, conageq] = projects;
+
+const GITHUB_USER = 'Jorge-David-Reyes';
+const contributions = await getContributions(GITHUB_USER);
 ---
 
 <LayoutMain
@@ -77,10 +81,21 @@ const [ipicyt, noticias, conageq] = projects;
 				</ProjectShowcase>
 			</div>
 		</section>
+
+		{contributions && (
+			<section class="space-y-6">
+				<h2 data-reveal class="font-display text-2xl font-medium text-primary">Actividad en GitHub</h2>
+				<ContributionGraph calendar={contributions} username={GITHUB_USER} />
+			</section>
+		)}
 	</div>
 </LayoutMain>
 
 <script>
 	import { initProjectModals } from '@/scripts/projectModal';
-	document.addEventListener('astro:page-load', initProjectModals);
+	document.addEventListener('astro:page-load', () => {
+		initProjectModals();
+		const contrib = document.getElementById('contrib-scroll');
+		if (contrib) contrib.scrollLeft = contrib.scrollWidth;
+	});
 </script>
