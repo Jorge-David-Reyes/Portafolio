@@ -50,6 +50,7 @@
 /* ---- Tema oscuro (principal) ---- */
 :root {
     color-scheme: dark;
+    scrollbar-gutter: stable;
 }
 
 /* ---- Tema claro: arena y mar de día, mismo acento dorado pero más profundo para que contraste ---- */
