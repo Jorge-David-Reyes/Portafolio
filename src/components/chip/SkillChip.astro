@@ -4,12 +4,16 @@ import TechIcon from '@/components/TechIcon.astro';
 interface Props {
   name: string;
   icon: string;
+  delay?: number;
 }
 
-const { name, icon } = Astro.props;
+const { name, icon, delay } = Astro.props;
 ---
 
-<div class="flex items-center gap-2 px-4 py-2 bg-surface border border-border-subtle rounded-full hover:border-accent hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/10 transition-all duration-300">
-  <TechIcon name={icon} class="w-6 h-6" />
-  <span class="font-mono text-xs text-primary">{name}</span>
+<div data-reveal data-reveal-delay={delay}>
+  <div data-tilt class="flex items-center gap-2 px-4 py-2 bg-surface border border-border-subtle rounded-full hover:border-accent hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/10 transition-all duration-300">
+    <span class="tilt-glare"></span>
+    <TechIcon name={icon} class="tilt-pop w-6 h-6" />
+    <span class="font-mono text-xs text-primary">{name}</span>
+  </div>
 </div>

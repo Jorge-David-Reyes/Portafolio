@@ -1,0 +1,57 @@
+---
+import TechIcon from '@/components/TechIcon.astro';
+import { spherePoints, projectStyle } from '@/scripts/techSphere';
+
+interface Item {
+  name: string;
+  icon: string;
+}
+
+interface Props {
+  items: Item[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+
+const initial = spherePoints(items.length).map(projectStyle);
+---
+
+<div
+  data-tech-sphere
+  aria-hidden="true"
+  class:list={['tech-sphere relative w-full aspect-square select-none touch-pan-y cursor-grab', className]}
+>
+  <div class="absolute inset-[12%] rounded-full bg-[radial-gradient(circle,var(--color-accent)_0%,transparent_70%)] opacity-10 blur-2xl"></div>
+  <div class="absolute inset-[10%] rounded-full border border-accent/10"></div>
+
+  {items.map((item, i) => (
+    <div
+      data-sphere-item
+      class="group absolute left-1/2 top-1/2 -ml-6 -mt-6 w-12 h-12 flex items-center justify-center rounded-full bg-abyss-900/70 border border-border-subtle backdrop-blur-sm will-change-transform hover:border-accent"
+      style={`transform: ${initial[i].transform}; opacity: ${initial[i].opacity}; z-index: ${initial[i].zIndex}`}
+    >
+      <TechIcon name={item.icon} class="w-7 h-7 pointer-events-none" />
+      <span class="pointer-events-none absolute top-full mt-1.5 whitespace-nowrap px-2 py-0.5 rounded bg-abyss-900 border border-border-subtle font-mono text-[10px] text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+        {item.name}
+      </span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .tech-sphere {
+    container-type: inline-size;
+    --r: 38cqw;
+  }
+  .tech-sphere.is-dragging {
+    cursor: grabbing;
+  }
+</style>
+
+<script>
+  import { initTechSphere, destroyTechSphere } from '@/scripts/techSphere';
+
+  document.addEventListener('astro:page-load', initTechSphere);
+  document.addEventListener('astro:before-swap', destroyTechSphere);
+</script>

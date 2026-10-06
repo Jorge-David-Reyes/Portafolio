@@ -28,17 +28,10 @@ const { title, description, fillViewport = false } = Astro.props;
   </head>
   <body
     class:list={[
-      "flex flex-col min-h-dvh text-primary",
+      "flex flex-col min-h-dvh text-primary bg-main",
       fillViewport && "sm:h-dvh",
     ]}
   >
-    <div class="fixed inset-0 -z-20 bg-lagoon" transition:persist="lagoon">
-    </div>
-    <canvas
-      id="reveal-curtain"
-      class="fixed inset-0 -z-10 pointer-events-none"
-      transition:persist="reveal-curtain"></canvas>
-
     <Header />
     <main
       class:list={[
@@ -68,14 +61,6 @@ const { title, description, fillViewport = false } = Astro.props;
   .no-scrollbar::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Edge nuevo */
   }
-
-  canvas#reveal-curtain {
-    background-color: var(--color-main);
-  }
-  .js canvas#reveal-curtain {
-    background-color: transparent;
-  }
-
   /* ---- Reveal on scroll ---- */
   @media (prefers-reduced-motion: no-preference) {
     .js [data-reveal] {
@@ -90,6 +75,38 @@ const { title, description, fillViewport = false } = Astro.props;
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* ---- Inclinación 3D al pasar el mouse (scripts/tilt.ts) ---- */
+  [data-tilt] {
+    position: relative;
+    transform: perspective(600px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transform-style: preserve-3d;
+  }
+  [data-tilt].is-tilting {
+    transition-duration: 100ms;
+  }
+  [data-tilt] .tilt-pop {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-tilt].is-tilting .tilt-pop {
+    transform: translateZ(18px) scale(1.15);
+  }
+  .tilt-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at var(--glare-x, 50%) var(--glare-y, 50%),
+      color-mix(in srgb, var(--color-accent) 22%, transparent),
+      transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  [data-tilt].is-tilting .tilt-glare {
+    opacity: 1;
   }
 
   @keyframes nudge {
