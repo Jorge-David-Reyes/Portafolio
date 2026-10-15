@@ -4,6 +4,7 @@ import pythonCienciaImg from '@/assets/certificates/python-ciencia.webp';
 import introDataEngImg from '@/assets/certificates/intro-data-eng.webp';
 import sqlImg from '@/assets/certificates/sql-postgresql.webp';
 import netbackend from '@/assets/certificates/net-backend.webp';
+import sqldatascience from '@/assets/certificates/databases-sql-data-science.webp';
 
 export interface CredentialLink {
   label: string;
@@ -20,6 +21,16 @@ export interface Credential {
 }
 
 export const courses: Credential[] = [
+  {
+    title: 'Databases and SQL for Data Science with Python',
+    issuer: 'Coursera',
+    date: 'Octubre 2026',
+    image: sqldatascience,
+    links: [
+      { label: 'Coursera', icon: 'simple-icons:coursera', url: 'https://coursera.org/share/18d4036340c9b303f726c2741d8ce779' },
+      { label: 'Credly', icon: 'simple-icons:credly', url: 'https://www.credly.com/badges/05d58d92-743d-443f-8237-cdb078083b7f/public_url' },
+    ],
+  },
   {
     title: '.NET Backend: .NET Core, SQL Server y seguridad JWT',
     issuer: 'Udemy',
