@@ -1,17 +1,35 @@
 ---
+import { Image } from 'astro:assets';
 import { LayoutMain } from "@/layouts";
-import { Button, SkillChip, InProgressChip, PixelAvatar, TechSphere } from '@/components';
+import { Button, InProgressChip, SkillChip } from '@/components';
 import { Icon } from 'astro-icon/components';
 import { skills, inProgress } from '@/data/skills';
+import { projects } from '@/data/projects';
 
-const sphereItems = [
-  ...skills,
-  ...inProgress.map(item => ({ name: `${item.name} · en formación`, icon: item.icon })),
+const orbit = [
+	{ name: 'Vue.js', left: 33, top: 12 },
+	{ name: 'Nuxt', left: 64, top: 27 },
+	{ name: 'Laravel', left: 6, top: 35 },
+	{ name: 'TypeScript', left: 59, top: 63 },
+	{ name: 'MySQL', left: 13, top: 68 },
+	{ name: 'Astro', left: 38, top: 83 },
 ];
 
 const socials = [
   { name: 'GitHub', icon: 'simple-icons:github', href: 'https://github.com/Jorge-David-Reyes' },
   { name: 'LinkedIn', icon: 'simple-icons:linkedin', href: 'https://linkedin.com/in/jorge-reyes-2a998428a' },
+];
+
+const skillGroups = [
+  { title: 'Frontend', items: skills.slice(0, 9) },
+  { title: 'Backend y datos', items: skills.slice(9) },
+];
+
+const [ipicyt, noticias, conageq] = projects;
+const featured = ipicyt;
+const others = [
+  { project: noticias, text: 'Panel administrativo para que el equipo de comunicación publique y edite sin depender de un desarrollador. Incluye la migración de Oracle a MySQL.' },
+  { project: conageq, text: 'Sitio oficial del evento académico, hecho desde cero en Astro para cargar rápido desde enlaces compartidos.' },
 ];
 ---
 
@@ -19,63 +37,137 @@ const socials = [
 	title="Jorge Reyes | Full Stack Developer | Aspiring Data Engineer"
 	description="Portafolio de Jorge Reyes, desarrollador Full Stack (Vue/Nuxt, TypeScript, Laravel) en camino a Data Engineering."
 >
-	<div class="space-y-16">
-		<section class="hero-grid relative overflow-hidden gap-8 items-start pt-6">
-			<h1 data-reveal class="hero-name font-display text-4xl sm:text-5xl font-semibold tracking-tight text-primary">
-				<span class="text-gradient">Jorge Reyes</span>
-			</h1>
+	<div class="space-y-24">
 
-			<!-- <div data-reveal class="hero-avatar flex flex-col items-center gap-4">
-				<PixelAvatar />
-				<div class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-border-subtle rounded-full font-mono text-xs text-secondary">
+		<!-- Hero -->
+		<section class="flex flex-col lg:flex-row items-center gap-12 pt-10">
+			<div class="flex-1 min-w-0 space-y-7">
+				<div data-reveal class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-main/60 border border-border-strong font-mono text-xs sm:text-sm text-primary">
 					<span class="relative flex h-2 w-2">
 						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
 						<span class="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
 					</span>
-					Disponible para proyectos
+					Disponible para nuevas oportunidades
 				</div>
-			</div> -->
 
-			<div data-reveal class="hero-avatar flex justify-center lg:justify-end">
-				<TechSphere items={sphereItems} class="max-w-[18rem] sm:max-w-[22rem]" />
+				<h1 data-reveal class="font-display font-semibold tracking-tight text-primary text-balance leading-[1.03] text-5xl sm:text-6xl lg:text-7xl">
+					Plataformas web completas, <em class="font-normal text-accent">de la interfaz a los datos</em>.
+				</h1>
+
+				<p data-reveal class="text-secondary text-base sm:text-lg max-w-xl leading-relaxed text-pretty">
+					Soy Jorge Reyes, desarrollador Full Stack con más de 2 años de experiencia en Vue/Nuxt y Laravel. Ahora estoy dando el siguiente paso hacia Data Engineering.
+				</p>
+
+				<div data-reveal class="flex flex-wrap items-center gap-4 pt-1 font-body">
+					<Button href="#proyectos">Ver proyectos</Button>
+					<Button href="/cv/CV_Jorge_David_Reyes_Melendez.pdf" download variant="outline">
+						Descargar CV <Icon name="lucide:download" class="w-4 h-4" />
+					</Button>
+					<div class="flex items-center gap-3 pl-2">
+						{socials.map(social => (
+							<a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.name} class="text-secondary hover:text-accent transition-colors">
+								<Icon name={social.icon} class="w-7 h-7" />
+							</a>
+						))}
+					</div>
+				</div>
 			</div>
 
-			<p data-reveal class="hero-desc text-secondary text-base sm:text-lg max-w-xl leading-relaxed">
-				Desarrollador Full Stack con más de 2 años de experiencia construyendo plataformas web completas: desde interfaces en Vue/Nuxt hasta backends en Laravel. Actualmente ampliando mi perfil hacia Data Engineering.
-			</p>
-
-			<div data-reveal class="hero-actions flex flex-wrap items-center gap-4 pt-2 font-body">
-				<Button href="/proyectos">Ver proyectos</Button>
-				<Button href="/cv/CV_Jorge_David_Reyes_Melendez.pdf" download variant="outline">
-				Descargar CV <Icon name="lucide:download" class="w-4 h-4" />
-				</Button>
-
-				<div class="flex items-center gap-3 pl-2">
-				{socials.map(social => (
-					<a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.name} class="text-secondary hover:text-accent transition-colors">
-					<Icon name={social.icon} class="w-7 h-7" />
-					</a>
-				))}
+			<div data-reveal class="w-full lg:w-[26rem] shrink-0 flex justify-center py-14">
+				<div class="relative w-[300px] sm:w-[340px] aspect-square" aria-hidden="true">
+					<div class="absolute -inset-[8%] rounded-full border border-dashed border-primary/25"></div>
+					<div class="absolute -inset-[17%] rounded-full border border-primary/10"></div>
+					<div class="absolute inset-0 rounded-full overflow-hidden border-[6px] border-surface ring-1 ring-primary/25 shadow-2xl shadow-elevation bg-[radial-gradient(circle_at_50%_35%,var(--color-lagoon)_0%,var(--color-surface)_70%)]">
+						<div class="absolute inset-[14%] rounded-full border border-dashed border-primary/25"></div>
+						<div class="absolute inset-[30%] rounded-full border border-primary/20"></div>
+						<div class="absolute inset-0 flex items-center justify-center font-display font-semibold text-6xl tracking-tight text-primary">JR</div>
+						{orbit.map(item => (
+							<span
+								class="absolute px-3 py-1.5 rounded-full bg-main/75 border border-border-strong font-mono text-xs text-primary whitespace-nowrap"
+								style={`left:${item.left}%;top:${item.top}%`}
+							>{item.name}</span>
+						))}
+					</div>
 				</div>
 			</div>
 		</section>
 
-		<section class="space-y-6">
-			<h2 data-reveal class="font-display text-2xl font-medium text-primary">Habilidades</h2>
-			<div class="flex flex-wrap gap-3">
-				{skills.map((skill, i) => <SkillChip name={skill.name} icon={skill.icon} delay={i * 40} />)}
+		<!-- Proyectos -->
+		<section id="proyectos" class="space-y-8 scroll-mt-24">
+			<div class="flex flex-wrap items-baseline justify-between gap-4">
+				<h2 data-reveal class="font-display font-semibold text-3xl sm:text-4xl tracking-tight text-primary">Proyectos destacados</h2>
+				<a data-reveal href="/proyectos" class="text-accent hover:text-accent-hover font-medium transition-colors">Ver todos los proyectos →</a>
 			</div>
 
-			<div class="pt-2">
-				<h3 data-reveal class="font-mono text-xs tracking-widest uppercase text-secondary mb-3">
-					Actualmente en formación
-				</h3>
-				<div class="flex flex-wrap gap-3">
-					{inProgress.map((item, i) => (
-						<InProgressChip name={item.name} icon={item.icon} detail={item.detail} delay={i * 60} />
-					))}
+			<article data-reveal class="grid lg:grid-cols-[1.35fr_1fr] rounded-2xl overflow-hidden bg-surface border border-border-strong shadow-xl shadow-elevation">
+				<a href="/proyectos" class="block bg-abyss-900" aria-label={`Ver detalle de ${featured.title}`}>
+					<Image src={featured.image} alt={`Captura de ${featured.title}`} class="w-full h-full min-h-64 object-cover object-top" />
+				</a>
+				<div class="p-8 sm:p-10 flex flex-col justify-center gap-4">
+					<p class="font-mono text-sm text-accent">01 · Proyecto principal</p>
+					<h3 class="font-display font-semibold text-3xl leading-tight text-primary">{featured.title}</h3>
+					<p class="text-secondary leading-relaxed text-pretty">
+						Desarrollo completo del sitio y migración de Vue.js a Nuxt + TypeScript con SSR, que corrigió los metadatos Open Graph y mejoró el SEO. Backend reestructurado en Laravel.
+					</p>
+					<div class="flex flex-wrap gap-2">
+						{featured.tags.map(tag => (
+							<span class="px-3 py-1.5 rounded-full border border-border-strong font-mono text-xs text-primary">{tag.name}</span>
+						))}
+					</div>
+					<a href="/proyectos" class="self-start py-2 text-accent hover:text-accent-hover font-semibold transition-colors">Ver detalle →</a>
+				</div>
+			</article>
+
+			<div class="grid md:grid-cols-2 gap-6">
+				{others.map(({ project, text }, i) => (
+					<article data-reveal class="flex flex-col rounded-2xl overflow-hidden bg-surface border border-border-strong">
+						<Image src={project.image} alt={`Captura de ${project.title}`} class="w-full aspect-video object-cover object-top" />
+						<div class="p-7 flex flex-col gap-3">
+							<p class="font-mono text-sm text-accent">{`0${i + 2}`}</p>
+							<h3 class="font-display font-semibold text-2xl text-primary">{project.title}</h3>
+							<p class="text-sm sm:text-base text-secondary leading-relaxed text-pretty">{text}</p>
+							<div class="flex flex-wrap gap-2">
+								{project.tags.map(tag => (
+									<span class="px-3 py-1 rounded-full border border-border-strong font-mono text-xs text-primary">{tag.name}</span>
+								))}
+							</div>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- Stack -->
+		<section class="space-y-8">
+			<h2 data-reveal class="font-display font-semibold text-3xl sm:text-4xl tracking-tight text-primary">Con qué trabajo</h2>
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{skillGroups.map(group => (
+					<div class="p-7 rounded-2xl bg-surface/60 border border-border-subtle space-y-5">
+						<h3 class="font-mono text-xs tracking-widest uppercase text-secondary">{group.title}</h3>
+						<div class="flex flex-wrap gap-3">
+							{group.items.map((skill, i) => <SkillChip name={skill.name} icon={skill.icon} delay={i * 40} />)}
+						</div>
+					</div>
+				))}
+				<div class="p-7 rounded-2xl bg-accent/5 border border-dashed border-accent-dim space-y-5">
+					<h3 class="font-mono text-xs tracking-widest uppercase text-accent">Aprendiendo ahora</h3>
+					<div class="flex flex-wrap gap-3">
+						{inProgress.map((item, i) => (
+							<InProgressChip name={item.name} icon={item.icon} delay={i * 60} />
+						))}
+					</div>
+					<p class="text-sm text-secondary">Mi siguiente paso: Data Engineering.</p>
 				</div>
 			</div>
+		</section>
+
+		<!-- Cierre -->
+		<section data-reveal class="rounded-3xl border border-border-strong bg-[radial-gradient(ellipse_at_50%_0%,color-mix(in_srgb,var(--color-lagoon)_60%,transparent)_0%,transparent_70%)] px-6 py-14 sm:px-12 text-center flex flex-col items-center gap-5">
+			<h2 class="font-display font-semibold tracking-tight text-primary text-balance text-3xl sm:text-5xl max-w-2xl leading-tight">
+				¿Buscas sumar a alguien al equipo? <em class="font-normal text-accent">Escríbeme.</em>
+			</h2>
+			<p class="text-secondary max-w-lg">Estoy disponible para nuevas oportunidades como desarrollador Full Stack.</p>
+			<Button href="/contacto">Ir al formulario de contacto</Button>
 		</section>
 	</div>
 </LayoutMain>
@@ -84,36 +176,3 @@ const socials = [
 	import { initTilt } from '@/scripts/tilt';
 	document.addEventListener('astro:page-load', initTilt);
 </script>
-
-<style>
-.hero-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "name"
-      "desc"
-      "actions"
-      "avatar";
-  }
-  .hero-name    { grid-area: name; }
-  .hero-avatar  { grid-area: avatar; }
-  .hero-desc    { grid-area: desc; }
-  .hero-actions { grid-area: actions; }
-
-  @media (min-width: 1024px) {
-    .hero-grid {
-      grid-template-columns: 2fr 1fr;
-      column-gap: 2rem;
-      grid-template-areas:
-        "name   avatar"
-        "desc   avatar"
-        "actions avatar";
-    }
-  }
-
-.text-gradient {
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: var(--color-accent);
-  }
-</style>

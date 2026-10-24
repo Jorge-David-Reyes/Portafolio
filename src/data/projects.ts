@@ -19,6 +19,7 @@ import sinoticias7 from '@/assets/projects/Sinoticias/sinoticias-7.webp';
 export const projects = [
   {
     title: 'Página institucional IPICYT',
+    kind: 'Sitio institucional',
     description: 'Desarrollo completo y migración de Vue.js a Nuxt + TypeScript, con SSR para corregir metadatos Open Graph. Backend reestructurado en Laravel con MySQL y Oracle.',
     image: ipicytPreview,
     href: 'https://ipicyt.edu.mx',
@@ -32,6 +33,7 @@ export const projects = [
   },
   {
     title: 'IPICYT: Noticias y Eventos',
+    kind: 'Panel administrativo',
     description: 'Panel administrativo para gestión de noticias y contenido, con migración de datos de Oracle a MySQL.',
     image: noticiasPreview,
     href: 'https://ipicyt.edu.mx/sinoticias',
@@ -45,6 +47,7 @@ export const projects = [
   },
   {
     title: 'CONAGEQ 2026',
+    kind: 'Sitio de evento',
     description: 'Sitio web oficial del evento, construido con Astro.',
     image: conageqPreview,
     href: 'https://ipicyt.edu.mx/conageq2026',

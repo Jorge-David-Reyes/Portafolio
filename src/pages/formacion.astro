@@ -1,6 +1,6 @@
 ---
 import { LayoutMain } from "@/layouts";
-import { CertificateCard } from '@/components';
+import { CertificateCard, PageHeader } from '@/components';
 import { Icon } from 'astro-icon/components';
 import { courses, certifications } from '@/data/certificates';
 
@@ -17,10 +17,12 @@ const tabs = [
 >
 	<div class="sm:flex sm:flex-col sm:flex-1 sm:min-h-0">
 		<section class="space-y-6 sm:flex sm:flex-col sm:flex-1 sm:min-h-0">
-			<h1 data-reveal class="font-display text-2xl font-medium text-primary">Formación</h1>
+			<PageHeader compact eyebrow="Formación">
+				Cursos que me llevan <em class="font-normal text-accent">hacia los datos</em>.
+			</PageHeader>
 
 			<div class="flex items-center justify-between gap-4">
-				<div data-reveal role="tablist" aria-label="Tipo de formación" class="inline-flex gap-1 p-1 bg-surface border border-border-subtle rounded-full font-mono text-xs sm:text-sm">
+				<div data-reveal role="tablist" aria-label="Tipo de formación" class="inline-flex gap-1 p-1 bg-surface/70 border border-border-strong rounded-full font-mono text-xs sm:text-sm">
 					{tabs.map((tab, i) => (
 						<button
 							type="button"
@@ -30,7 +32,7 @@ const tabs = [
 							aria-selected={i === 0 ? 'true' : 'false'}
 							tabindex={i === 0 ? 0 : -1}
 							data-tab
-							class="flex items-center gap-2 px-4 py-1.5 rounded-full text-secondary cursor-pointer transition-colors duration-300
+							class="flex items-center gap-2 px-5 min-h-11 rounded-full text-secondary cursor-pointer transition-colors duration-300
 								hover:text-accent
 								aria-selected:bg-abyss-900 aria-selected:text-accent"
 						>

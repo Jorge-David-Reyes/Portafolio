@@ -1,19 +1,40 @@
 ---
 import { LayoutMain } from "@/layouts";
 import { ContactForm } from '@/components';
+import { Icon } from 'astro-icon/components';
+
+const socials = [
+	{ name: 'GitHub', icon: 'simple-icons:github', href: 'https://github.com/Jorge-David-Reyes' },
+	{ name: 'LinkedIn', icon: 'simple-icons:linkedin', href: 'https://linkedin.com/in/jorge-reyes-2a998428a' },
+];
 ---
 
 <LayoutMain
 	title="Contacto | Jorge Reyes"
 	description="Contacta a Jorge Reyes para proyectos u oportunidades laborales."
 >
-	<div class="space-y-16">
-		<section class="space-y-6">
-			<h1 data-reveal class="font-display text-2xl font-medium text-primary text-center">Contacto</h1>
-			<p data-reveal class="text-secondary text-sm sm:text-base max-w-lg mx-auto text-center">
-				¿Tienes un proyecto en mente o buscas sumar a alguien al equipo? Escríbeme.
+	<section class="grid lg:grid-cols-2 gap-14 items-start pt-8">
+		<div class="space-y-6">
+			<p data-reveal class="font-mono text-xs sm:text-sm tracking-[0.14em] uppercase text-accent">Contacto</p>
+			<h1 data-reveal class="font-display font-semibold tracking-tight text-primary text-balance leading-[1.04] text-4xl sm:text-5xl lg:text-6xl">
+				¿Buscas sumar a alguien al equipo? <em class="font-normal text-accent">Escríbeme.</em>
+			</h1>
+			<p data-reveal class="text-secondary text-base sm:text-lg leading-relaxed text-pretty">
+				¿Tienes un proyecto en mente o buscas sumar a alguien al equipo? Estoy disponible para nuevas oportunidades como desarrollador Full Stack.
 			</p>
-			<ContactForm />
-		</section>
-	</div>
+			<div data-reveal class="space-y-1.5 pt-2">
+				<p class="font-mono text-xs uppercase tracking-[0.12em] text-secondary">Correo</p>
+				<a href="mailto:jorge.reyes.1650@gmail.com" class="font-mono text-base text-primary hover:text-accent transition-colors">jorge.reyes.1650@gmail.com</a>
+			</div>
+			<div data-reveal class="flex flex-wrap gap-3">
+				{socials.map(social => (
+					<a href={social.href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 min-h-12 px-5 rounded-full border border-border-strong text-primary hover:border-accent hover:text-accent transition-colors">
+						<Icon name={social.icon} class="w-5 h-5" /> {social.name}
+					</a>
+				))}
+			</div>
+		</div>
+
+		<ContactForm />
+	</section>
 </LayoutMain>

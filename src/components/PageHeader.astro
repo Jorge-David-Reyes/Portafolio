@@ -1,0 +1,16 @@
+---
+interface Props {
+  eyebrow: string;
+  description?: string;
+  compact?: boolean;
+}
+const { eyebrow, description, compact = false } = Astro.props;
+---
+
+<header class:list={['max-w-3xl', compact ? 'space-y-2 pt-2 pb-2' : 'space-y-5 pt-8 pb-10']}>
+  <p data-reveal class="font-mono text-xs sm:text-sm tracking-[0.14em] uppercase text-accent">{eyebrow}</p>
+  <h1 data-reveal class:list={['font-display font-semibold tracking-tight text-primary text-balance leading-[1.04]', compact ? 'text-3xl sm:text-4xl' : 'text-4xl sm:text-5xl lg:text-6xl']}>
+    <slot />
+  </h1>
+  {description && <p data-reveal class="text-secondary text-base sm:text-lg leading-relaxed text-pretty">{description}</p>}
+</header>

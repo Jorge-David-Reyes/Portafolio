@@ -37,10 +37,11 @@ const { title, description, fillViewport = false } = Astro.props;
   </head>
   <body
     class:list={[
-      "flex flex-col min-h-dvh text-primary bg-main",
+      "relative isolate flex flex-col min-h-dvh text-primary bg-main",
       fillViewport && "sm:h-dvh",
     ]}
   >
+    <div class="ocean-atmosphere" aria-hidden="true"></div>
     <Header />
     <main
       class:list={[

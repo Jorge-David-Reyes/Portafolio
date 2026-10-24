@@ -1,10 +1,11 @@
 ---
 import { LayoutMain } from "@/layouts";
-import { ProjectShowcase, ContributionGraph } from '@/components';
+import { ProjectShowcase, ContributionGraph, PageHeader } from '@/components';
 import { projects } from '@/data/projects';
 import { getContributions } from '@/lib/github';
 
 const [ipicyt, noticias, conageq] = projects;
+const allTags = [...new Set(projects.flatMap(p => p.tags.map(t => t.name)))];
 
 const GITHUB_USER = 'Jorge-David-Reyes';
 const contributions = await getContributions(GITHUB_USER);
@@ -15,10 +16,33 @@ const contributions = await getContributions(GITHUB_USER);
 	description="Proyectos destacados de Jorge Reyes: sitio del IPICYT, panel de noticias y CONAGEQ 2026."
 >
 	<div class="space-y-16">
-		<section class="space-y-6">
-			<h1 data-reveal class="font-display text-2xl font-medium text-primary">Proyectos destacados</h1>
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-				<ProjectShowcase id="proyecto-ipicyt" project={ipicyt}>
+		<section>
+			<PageHeader eyebrow="Proyectos" description="Elige una tecnología para filtrar. Cada tarjeta abre el detalle completo.">
+				Trabajo <em class="font-normal text-accent">publicado</em>, de punta a punta.
+			</PageHeader>
+
+			<div data-filter-bar class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-4 mb-9 border-y border-border-strong">
+				<div role="group" aria-label="Filtrar por tecnología" class="flex flex-wrap items-center gap-2.5">
+					<span class="font-mono text-xs uppercase tracking-[0.12em] text-secondary mr-1.5">Tecnología</span>
+					{['', ...allTags].map(tag => (
+						<button
+							type="button"
+							data-filter-chip={tag}
+							aria-pressed={tag === '' ? 'true' : 'false'}
+							class="min-h-11 px-4 rounded-full border border-border-strong font-mono text-sm text-primary cursor-pointer transition-colors hover:border-accent aria-pressed:bg-accent aria-pressed:border-accent aria-pressed:text-main aria-pressed:font-semibold"
+						>
+							{tag === '' ? 'Todos' : tag}
+						</button>
+					))}
+				</div>
+				<div role="status" aria-live="polite" class="flex items-center gap-3.5 font-mono text-sm text-secondary">
+					<span data-filter-count>{projects.length} de {projects.length} proyectos</span>
+					<button type="button" data-filter-clear hidden class="min-h-11 px-1.5 text-accent underline underline-offset-4 hover:text-accent-hover cursor-pointer">Limpiar filtro</button>
+				</div>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 items-stretch">
+				<ProjectShowcase id="proyecto-ipicyt" project={ipicyt} index={0}>
 					<p>
 						Desarrollé por completo la página institucional del IPICYT (ipicyt.edu.mx) y lideré su
 						migración de Vue.js a Nuxt + TypeScript, implementando renderizado del lado del servidor
@@ -31,7 +55,7 @@ const contributions = await getContributions(GITHUB_USER);
 						para integrar información institucional sin duplicar fuentes de verdad.
 					</p>
 					<div class="space-y-2">
-						<h4 class="font-display font-medium text-primary text-base">Lo que hice</h4>
+						<h4 class="font-mono text-xs tracking-[0.14em] uppercase text-secondary">Lo que hice</h4>
 						<ul class="list-disc pl-5 space-y-1.5">
 						<li>Migración completa de Vue.js a Nuxt + TypeScript con SSR.</li>
 						<li>Corrección de metadatos Open Graph para mejorar SEO y compartidos en redes.</li>
@@ -42,7 +66,7 @@ const contributions = await getContributions(GITHUB_USER);
 					</div>
 				</ProjectShowcase>
 
-				<ProjectShowcase id="proyecto-noticias" project={noticias}>
+				<ProjectShowcase id="proyecto-noticias" project={noticias} index={1}>
 					<p>
 						Desarrollé de principio a fin el CMS con el que el IPICYT publica sus noticias, sliders y
 						archivos, pensado para que el personal de comunicación y de cada división pudiera gestionar
@@ -59,7 +83,7 @@ const contributions = await getContributions(GITHUB_USER);
 						adaptándolas al nuevo modelo, y a partir de ahí todas las noticias nuevas se guardan en él.
 					</p>
 					<div class="space-y-2">
-						<h4 class="font-display font-medium text-primary text-base">Frontend</h4>
+						<h4 class="font-mono text-xs tracking-[0.14em] uppercase text-secondary">Frontend</h4>
 						<ul class="list-disc pl-5 space-y-1.5">
 						<li>Panel con Vue 3, Vuetify, TypeScript y Pinia, organizado por módulos (noticias, sliders, archivos, usuarios).</li>
 						<li>Editor enriquecido sobre TipTap con un registro de extensiones propio: imágenes, galerías, tablas, video, YouTube, botones e íconos.</li>
@@ -69,7 +93,7 @@ const contributions = await getContributions(GITHUB_USER);
 						</ul>
 					</div>
 					<div class="space-y-2">
-						<h4 class="font-display font-medium text-primary text-base">Backend y datos</h4>
+						<h4 class="font-mono text-xs tracking-[0.14em] uppercase text-secondary">Backend y datos</h4>
 						<ul class="list-disc pl-5 space-y-1.5">
 						<li>Diseño de la base de datos en MySQL para noticias, sliders, archivos, secciones y permisos.</li>
 						<li>API REST en Laravel con autenticación por sesión (Sanctum).</li>
@@ -78,14 +102,14 @@ const contributions = await getContributions(GITHUB_USER);
 					</div>
 				</ProjectShowcase>
 
-				<ProjectShowcase id="proyecto-conageq" project={conageq}>
+				<ProjectShowcase id="proyecto-conageq" project={conageq} index={2}>
 					<p>
 						Desarrollé desde cero el sitio web oficial del evento académico CONAGEQ 2026, usando Astro
 						para maximizar el rendimiento y tiempos de carga — clave para un sitio de evento donde la
 						mayoría de las visitas llegan desde enlaces compartidos y necesitan cargar rápido.
 					</p>
 					<div class="space-y-2">
-						<h4 class="font-display font-medium text-primary text-base">Lo que hice</h4>
+						<h4 class="font-mono text-xs tracking-[0.14em] uppercase text-secondary">Lo que hice</h4>
 						<ul class="list-disc pl-5 space-y-1.5">
 						<li>Sitio oficial del evento CONAGEQ 2026, construido con Astro.</li>
 						<li>Desarrollo completo del frontend con TypeScript y JavaScript.</li>
@@ -94,11 +118,12 @@ const contributions = await getContributions(GITHUB_USER);
 					</div>
 				</ProjectShowcase>
 			</div>
+			<p data-filter-empty hidden class="py-12 text-secondary">Todavía no hay proyectos con esa tecnología.</p>
 		</section>
 
 		{contributions && (
 			<section class="space-y-6">
-				<h2 data-reveal class="font-display text-2xl font-medium text-primary">Actividad en GitHub</h2>
+				<h2 data-reveal class="font-display font-semibold text-3xl tracking-tight text-primary">Actividad en GitHub</h2>
 				<ContributionGraph calendar={contributions} username={GITHUB_USER} />
 			</section>
 		)}
@@ -108,9 +133,11 @@ const contributions = await getContributions(GITHUB_USER);
 <script>
 	import { initProjectModals } from '@/scripts/projectModal';
 	import { initCardSlideshows } from '@/scripts/cardSlideshow';
+	import { initProjectFilter } from '@/scripts/projectFilter';
 	document.addEventListener('astro:page-load', () => {
 		initProjectModals();
 		initCardSlideshows();
+		initProjectFilter();
 		const contrib = document.getElementById('contrib-scroll');
 		if (contrib) contrib.scrollLeft = contrib.scrollWidth;
 	});

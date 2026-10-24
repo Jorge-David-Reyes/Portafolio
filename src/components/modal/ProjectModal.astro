@@ -24,10 +24,10 @@ const hasMultiple = gallery.length > 1;
 <div id={id} data-project-modal aria-hidden="true" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 invisible pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby={`${id}-title`}>
   <button type="button" data-modal-close aria-label="Cerrar modal" class="absolute inset-0 bg-main/80 backdrop-blur-sm cursor-default"></button>
 
-  <div data-modal-panel class="relative w-full max-w-7xl max-h-[92vh] flex flex-col bg-surface border border-border-strong rounded-lg shadow-xl opacity-0 scale-95 transition-all duration-300 ease-out">
+  <div data-modal-panel class="relative w-full max-w-7xl max-h-[92vh] flex flex-col bg-surface border border-border-strong rounded-2xl shadow-2xl opacity-0 scale-95 transition-all duration-300 ease-out">
 
     <div class="flex items-start justify-between gap-4 p-6 pb-4 border-b border-border-subtle shrink-0">
-      <h3 id={`${id}-title`} class="font-display font-semibold text-xl text-primary">{title}</h3>
+      <h3 id={`${id}-title`} class="font-display font-semibold text-2xl sm:text-3xl leading-tight text-primary">{title}</h3>
       <button type="button" data-modal-close aria-label="Cerrar" class="text-secondary hover:text-accent hover:cursor-pointer transition-colors p-1 -m-1">
         <Icon name="lucide:x" class="w-5 h-5" />
       </button>
@@ -37,7 +37,7 @@ const hasMultiple = gallery.length > 1;
 
       {hasGallery && (
         <div data-gallery class="md:col-span-3">
-          <div class="relative overflow-hidden rounded border border-border-subtle bg-abyss-900">
+          <div class="relative overflow-hidden rounded-xl border border-border-strong bg-abyss-900">
             <div data-gallery-track class="flex transition-transform duration-300">
               {gallery.map((img, i) => (
                 <div class="w-full shrink-0">
@@ -48,14 +48,21 @@ const hasMultiple = gallery.length > 1;
           </div>
 
           {hasMultiple && (
-            <div class="flex items-center justify-between mt-3">
-              <button type="button" data-gallery-prev aria-label="Imagen anterior" class="text-secondary hover:text-accent hover:cursor-pointer transition-colors p-2 -m-2">
-                <Icon name="lucide:chevron-left" class="w-6 h-6" />
-              </button>
-              <span data-gallery-counter class="font-mono text-sm text-secondary">1 / {gallery.length}</span>
-              <button type="button" data-gallery-next aria-label="Imagen siguiente" class="text-secondary hover:text-accent hover:cursor-pointer transition-colors p-2 -m-2">
-                <Icon name="lucide:chevron-right" class="w-6 h-6" />
-              </button>
+            <div class="mt-3.5 space-y-3">
+              <div class="grid grid-cols-4 gap-2.5">
+                {gallery.map((img, i) => (
+                  <button
+                    type="button"
+                    data-gallery-thumb={i}
+                    aria-label={`Ver captura ${i + 1}`}
+                    aria-current={i === 0 ? 'true' : undefined}
+                    class="overflow-hidden rounded-lg border-2 border-transparent aria-[current=true]:border-accent hover:border-accent-dim transition-colors cursor-pointer bg-abyss-900"
+                  >
+                    <Image src={img} alt="" width={240} class="w-full aspect-[16/10] object-cover object-top" />
+                  </button>
+                ))}
+              </div>
+              <span data-gallery-counter class="block font-mono text-xs text-secondary">Captura 1 de {gallery.length}</span>
             </div>
           )}
 
@@ -78,7 +85,7 @@ const hasMultiple = gallery.length > 1;
         </div>
       )}
 
-      <div class="md:col-span-2 space-y-4 text-sm text-secondary leading-relaxed">
+      <div class="md:col-span-2 space-y-4 text-base text-secondary leading-relaxed text-pretty">
         <slot />
       </div>
     </div>

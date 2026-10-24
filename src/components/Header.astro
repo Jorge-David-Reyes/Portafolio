@@ -13,7 +13,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => href === currentPath;
 ---
 
-<header class="sticky top-0 z-50 bg-main border-b border-border-subtle">
+<header
+  data-site-header
+  class="sticky top-0 z-50 border-b border-transparent transition-[background-color,backdrop-filter,border-color] duration-300 data-[scrolled=true]:bg-main/75 data-[scrolled=true]:backdrop-blur-md data-[scrolled=true]:border-border-subtle"
+>
   <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
     <a href="/" class="font-display text-lg font-semibold text-primary">
       Jorge<span class="text-accent">.</span>Reyes
@@ -131,4 +134,12 @@ const isActive = (href: string) => href === currentPath;
   }
 
   document.addEventListener('astro:page-load', initMobileMenu);
+
+  // Fondo y desenfoque del header solo cuando hay scroll
+  function updateHeaderScroll() {
+    const header = document.querySelector<HTMLElement>('[data-site-header]');
+    if (header) header.dataset.scrolled = String(window.scrollY > 8);
+  }
+  window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  document.addEventListener('astro:page-load', updateHeaderScroll);
 </script>

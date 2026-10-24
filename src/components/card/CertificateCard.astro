@@ -19,7 +19,7 @@ interface Props {
 const { title, issuer, date, image, links } = Astro.props;
 ---
 
-<article data-reveal class="sm:h-full sm:flex sm:flex-col bg-surface border border-border-subtle rounded-lg overflow-hidden hover:border-accent-dim hover:-translate-y-1 hover:shadow-lg hover:shadow-elevation transition-all duration-300 group">
+<article data-reveal class="sm:h-full sm:flex sm:flex-col bg-surface border border-border-strong rounded-2xl overflow-hidden hover:border-accent-dim hover:-translate-y-1 hover:shadow-lg hover:shadow-elevation transition-all duration-300 group">
   <div class="aspect-[4/3] bg-abyss-900">
     <Image
       src={image}
@@ -27,18 +27,18 @@ const { title, issuer, date, image, links } = Astro.props;
       class="w-full h-full object-cover"
     />
   </div>
-  <div class="p-4 space-y-3 sm:flex-1 sm:flex sm:flex-col">
+  <div class="p-5 space-y-3 sm:flex-1 sm:flex sm:flex-col">
     <div>
-      <h3 class="font-display font-semibold text-sm text-primary leading-snug sm:min-h-[2lh]">{title}</h3>
-      <p class="font-mono text-[11px] text-secondary mt-1">{issuer} · {date}</p>
+      <h3 class="font-display font-semibold text-lg text-primary leading-snug sm:min-h-[2lh]">{title}</h3>
+      <p class="font-mono text-xs text-secondary mt-1.5">{issuer} · {date}</p>
     </div>
-    <div class="flex gap-2 sm:mt-auto">
+    <div class="flex flex-wrap gap-2 sm:mt-auto">
       {links.map(link => (
         <a
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-1.5 px-3 py-1.5 bg-abyss-900 border border-border-subtle rounded font-mono text-[11px] text-secondary hover:border-accent hover:text-accent transition-colors"
+          class="flex items-center gap-1.5 px-4 min-h-11 bg-abyss-900 border border-border-strong rounded-full font-mono text-xs text-primary hover:border-accent hover:text-accent transition-colors"
         >
           <Icon name={link.icon} class="w-4 h-4" />
           {link.label}

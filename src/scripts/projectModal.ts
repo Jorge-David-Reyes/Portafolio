@@ -67,8 +67,7 @@ function initGallery(modal: HTMLElement) {
   if (!gallery) return;
 
   const track = gallery.querySelector<HTMLElement>('[data-gallery-track]');
-  const prev = gallery.querySelector<HTMLElement>('[data-gallery-prev]');
-  const next = gallery.querySelector<HTMLElement>('[data-gallery-next]');
+  const thumbs = Array.from(gallery.querySelectorAll<HTMLElement>('[data-gallery-thumb]'));
   const counter = gallery.querySelector<HTMLElement>('[data-gallery-counter]');
   if (!track) return;
 
@@ -78,17 +77,18 @@ function initGallery(modal: HTMLElement) {
   let index = 0;
   const update = () => {
     track.style.transform = `translateX(-${index * 100}%)`;
-    if (counter) counter.textContent = `${index + 1} / ${slides.length}`;
+    if (counter) counter.textContent = `Captura ${index + 1} de ${slides.length}`;
+    thumbs.forEach((thumb, i) => {
+      if (i === index) thumb.setAttribute('aria-current', 'true');
+      else thumb.removeAttribute('aria-current');
+    });
   };
 
-  prev?.addEventListener('click', () => {
-    index = (index - 1 + slides.length) % slides.length;
-    update();
-  });
-
-  next?.addEventListener('click', () => {
-    index = (index + 1) % slides.length;
-    update();
+  thumbs.forEach((thumb, i) => {
+    thumb.addEventListener('click', () => {
+      index = i;
+      update();
+    });
   });
 
   update();

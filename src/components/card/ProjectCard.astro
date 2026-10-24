@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
-import TechIcon from '@/components/TechIcon.astro';
 
 interface Tag {
   name: string;
@@ -16,50 +15,64 @@ interface Props {
   images?: ImageMetadata[];
   href?: string;
   modalId?: string;
+  kind?: string;
+  index?: number;
 }
 
-const { title, description, tags, image, images = [image], href = '#', modalId } = Astro.props;
+const { title, description, tags, image, images = [image], href, modalId, kind, index } = Astro.props;
+const number = index !== undefined ? String(index + 1).padStart(2, '0') : undefined;
 ---
 
-<article data-reveal class="bg-surface border border-border-subtle rounded-lg space-y-4 hover:border-accent-dim hover:-translate-y-1 hover:shadow-lg hover:shadow-elevation transition-all duration-300 group flex flex-col justify-between">
-  <button
-    type="button"
+<article
+  data-reveal
+  data-project-card
+  data-tags={tags.map(tag => tag.name).join('|')}
+  class="flex flex-col rounded-2xl overflow-hidden bg-surface border border-border-strong hover:border-accent-dim hover:-translate-y-1 hover:shadow-lg hover:shadow-elevation transition-all duration-300"
+>
+  <div
     data-project-modal-open={modalId}
-    aria-haspopup="dialog"
-    class="text-left w-full cursor-pointer space-y-4"
+    data-card-slideshow
+    class="relative aspect-[16/10] bg-abyss-900 overflow-hidden cursor-pointer"
   >
-    <div data-card-slideshow class="relative aspect-video bg-abyss-900 rounded-t-lg border border-border-subtle text-secondary text-xs overflow-hidden">
-      {images.map((img, i) => (
-        <Image
-          src={img}
-          alt={`Captura ${i + 1} del proyecto ${title}`}
-          loading={i === 0 ? 'eager' : 'lazy'}
-          data-slide
-          class:list={[
-            'absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out',
-            i === 0 ? 'opacity-100' : 'opacity-0',
-          ]}
-        />
+    {images.map((img, i) => (
+      <Image
+        src={img}
+        alt={i === 0 ? `Captura del proyecto ${title}` : ''}
+        loading={i === 0 ? 'eager' : 'lazy'}
+        data-slide
+        class:list={[
+          'absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out',
+          i === 0 ? 'opacity-100' : 'opacity-0',
+        ]}
+      />
+    ))}
+  </div>
+
+  <div class="flex flex-col flex-1 gap-3.5 p-6">
+    {(number || kind) && (
+      <p class="font-mono text-xs text-accent">{[number, kind].filter(Boolean).join(' · ')}</p>
+    )}
+    <h2 class="font-display font-semibold text-2xl leading-tight text-primary">{title}</h2>
+    <p class="text-sm sm:text-base text-secondary leading-relaxed text-pretty line-clamp-3">{description}</p>
+    <ul class="flex flex-wrap gap-2" aria-label="Tecnologías">
+      {tags.map(tag => (
+        <li class="px-3 py-1 rounded-full border border-border-strong font-mono text-xs text-primary">{tag.name}</li>
       ))}
+    </ul>
+    <div class="mt-auto pt-2 flex flex-wrap items-center gap-x-5 gap-y-2">
+      <button
+        type="button"
+        data-project-modal-open={modalId}
+        aria-haspopup="dialog"
+        class="inline-flex items-center min-h-11 px-6 rounded-full bg-accent text-main font-semibold hover:bg-accent-hover transition-colors cursor-pointer"
+      >
+        Ver detalle<span class="sr-only">: {title}</span>
+      </button>
+      {href && (
+        <a href={href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 min-h-11 text-accent font-medium hover:text-accent-hover transition-colors">
+          Visitar sitio <Icon name="lucide:external-link" class="w-4 h-4" />
+        </a>
+      )}
     </div>
-    <div class="space-y-3 px-4">
-      <h3 class="font-display font-semibold text-lg text-primary">{title}</h3>
-      <div class="flex flex-wrap gap-1.5 font-mono text-xs text-accent">
-        {tags.map(tag => (
-          <span class="flex items-center gap-1.5 px-3 py-1.5 bg-abyss-900 rounded">
-            <TechIcon name={tag.icon} class="w-4 h-4" />
-            {tag.name}
-          </span>
-        ))}
-      </div>
-      <p class="text-sm text-secondary leading-relaxed">
-        {description}
-      </p>
-    </div>
-  </button>
-  <div class="inline-flex justify-end pb-4 pr-4">
-    <a href={href} target="_blank" rel="noopener noreferrer" class="inline-flex justify-end items-center gap-2 text-accent font-medium hover:text-accent-hover transition-colors">
-      Visitar sitio <Icon name="lucide:external-link" class="w-4 h-4" />
-    </a>
   </div>
 </article>

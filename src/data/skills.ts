@@ -18,7 +18,7 @@ export const skills = [
 ];
 
 export const inProgress = [
-  { name: 'Data Engineering', icon: 'simple-icons:ibm', detail: 'IBM Professional Certificate' },
+  { name: 'Data Engineering', icon: 'lucide:database' },
   { name: 'React', icon: 'logos:react' },
   { name: 'Next.js', icon: 'logos:nextjs-icon' },
   { name: '.NET', icon: 'logos:dotnet' },
